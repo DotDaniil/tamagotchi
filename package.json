@@ -1,0 +1,23 @@
+{
+  "name": "tamagotchi",
+  "version": "0.0.1",
+  "description": "Tamagotchi Game",
+  "main": "main.js",
+  "scripts": {
+    "test": "test"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/DotDaniil/tamagotchi.git"
+  },
+  "keywords": [
+    "tamagotchi",
+    "game"
+  ],
+  "author": "Daniil Tikhonov",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/DotDaniil/tamagotchi/issues"
+  },
+  "homepage": "https://github.com/DotDaniil/tamagotchi#readme"
+}
