@@ -4,8 +4,9 @@ const readline = require('readline').createInterface({
 });
 const fs = require('fs');
 
-const rawCharacterData = fs.readFileSync('./data/character.json');
-const characterData = JSON.parse(rawCharacterData)
+function generateRandomInteger(max) {
+    return Math.floor(Math.random() * max) + 1;
+}
 
 class State {
     constructor(state) {
@@ -32,16 +33,18 @@ const loadGame = () => {
         myTamagotchi.modifyField(key, value);
     }
 }
-const saveGame = () => fs.writeFileSync('./data/character.json', JSON.stringify(myTamagotchi));
+
+//
+
+const saveGame = () => {
+    fs.writeFileSync('./data/character.json', JSON.stringify(myTamagotchi));
+}
 const deleteCharacter = () =>  {
     fs.writeFileSync('./data/character.json', '{}');
-    for (const [key, value] of Object.entries(myTamagotchi)) {
+    for (const [key, _] of Object.entries(myTamagotchi)) {
         myTamagotchi.delField(key);
     }
 }
-
-//
-loadGame()
 
 const menuBack = (prevMenu, prevText) => {
     console.clear();
@@ -59,10 +62,7 @@ const menuBack = (prevMenu, prevText) => {
 }
 
 const createNewTamagotchi = () => {
-    console.clear();
-    function generateRandomInteger(max) {
-        return Math.floor(Math.random() * max) + 1;
-    }
+   console.clear();
 
     const askName = (nextFunction) => readline.question('\n Enter tamagotchi name: \n', (name) => {
         myTamagotchi.modifyField('name', name);
@@ -77,13 +77,14 @@ const createNewTamagotchi = () => {
         }
         nextFunction()
     })
-    const createHealth = () => myTamagotchi.modifyField('hp',90 + generateRandomInteger(10))
+    const createHealth = () => myTamagotchi.modifyField('hp',2 + generateRandomInteger(0))
     const createIntellect = () => myTamagotchi.modifyField('intellect', 90 + generateRandomInteger(10));
     const createStrength = () => myTamagotchi.modifyField('strength', 1 + generateRandomInteger(2));
-    const createFood = () => myTamagotchi.modifyField('food', 50 + generateRandomInteger(50));
+    const createFood = () => myTamagotchi.modifyField('food', 1 + generateRandomInteger(0));
     const createWater = () => myTamagotchi.modifyField('water', 50 + generateRandomInteger(50));
     const createMoney = () => myTamagotchi.modifyField('money', 1 + generateRandomInteger(4));
     const createItems = () => myTamagotchi.modifyField('items', {'item1': 'test', 'item2': 'test'})
+    const createAliveFlag = () => myTamagotchi.modifyField('alive', true);
 
     const initiateCreation = () => {
 
@@ -95,6 +96,7 @@ const createNewTamagotchi = () => {
             createWater();
             createItems();
             createMoney();
+            createAliveFlag();
 
             showMenu();
         }
@@ -136,6 +138,89 @@ const menuFunctions = (input) => {
         }
 }
 
+// runs tamagotchi starving and thirst!
+
+const copyTamagotchiToState = (tamagotchy) => {
+    const tamagotchiCopy = JSON.parse(JSON.stringify(tamagotchy));
+    for (const [key, _] of Object.entries(myTamagotchi)) {
+        myTamagotchi.delField(key);
+    }
+
+    for (const [key, value] of Object.entries(tamagotchiCopy)) {
+        myTamagotchi.modifyField(key, value);
+    }
+}
+
+const characterExists = (tamagotchi) => tamagotchi.hasOwnProperty('gender');
+const createRandomCharStateInterval = (key, tamagotchi) => tamagotchi.modifyField(key, generateRandomInteger(100));
+const doesIntervalRunning = (key, tamagotchi) => tamagotchi.hasOwnProperty(key) && tamagotchi.key !== 0;
+const deleteCharStateInterval = (key, tamagotchi) => tamagotchi.delField(key);
+const delOnePoint = (key, tamagotchi) => tamagotchi.modifyField(key, tamagotchi[key] -= 1);
+const characterIsDying = (tamagotchi) => tamagotchi.food === 0 || tamagotchi.water === 0;
+const noHp = (tamagotchi) => tamagotchi.hp === 0;
+const hasFood = (tamagotchi) => tamagotchi.food !== 0;
+
+const startDying = (myTamagotchiOwn) => {
+
+    const dyingDelay = 10000
+
+    if (characterExists(myTamagotchiOwn)) {
+        if (characterIsDying(myTamagotchiOwn)) {
+            let timer_1 = setInterval(() => {
+                delOnePoint('hp', myTamagotchiOwn)
+                console.log(`Tamagochi is dying... HP is ${myTamagotchiOwn.hp}!`)
+                if (noHp(myTamagotchiOwn)) {
+                    deleteCharacter()
+                    clearInterval(timer_1)
+                    console.log('\n Tamagotchi is dead T_T \n || "*" ... RIP ... "*" || \n');
+                    process.exit()
+                }
+            },dyingDelay)
+        }
+    }
+}
+
+const startStarving = (myTamagotchiOwn) => {
+
+    deleteCharStateInterval('starvingDelay', myTamagotchiOwn);
+    console.log(characterExists(myTamagotchiOwn))
+    let timer_1 = setInterval(() => {
+        if (hasFood(myTamagotchiOwn)) {
+            if (characterExists(myTamagotchiOwn)) {
+                if (!doesIntervalRunning('starvingDelay', myTamagotchiOwn) && hasFood(myTamagotchiOwn)) {
+                    createRandomCharStateInterval('starvingDelay', myTamagotchiOwn);
+                    copyTamagotchiToState(myTamagotchiOwn);
+                    let timer_2 = setInterval(() => {
+                        delOnePoint('starvingDelay', myTamagotchiOwn)
+                        copyTamagotchiToState(myTamagotchiOwn);
+                        if (characterIsDying(myTamagotchiOwn)) {
+                            clearInterval(timer_2)
+                        }
+                    },1000)
+                }
+                if (myTamagotchiOwn.starvingDelay === 0 && hasFood(myTamagotchiOwn)) {
+                    delOnePoint('food', myTamagotchiOwn);
+                    copyTamagotchiToState(myTamagotchiOwn);
+                    deleteCharStateInterval('starvingDelay', myTamagotchiOwn);
+                    copyTamagotchiToState(myTamagotchiOwn);
+                    createRandomCharStateInterval('starvingDelay', myTamagotchiOwn)
+                    copyTamagotchiToState(myTamagotchiOwn);
+                    console.log(`starving... food is ${myTamagotchiOwn.food}`)
+                }
+                if (!hasFood(myTamagotchiOwn)) {
+                    startDying(myTamagotchiOwn);
+                }
+            }
+        } else {
+            clearInterval(timer_1)
+        }
+    },1000)
+
+
+}
+
+//
+
 const showMenu = () => {
     console.clear()
     readline.question(`Main Menu \n 
@@ -147,11 +232,12 @@ const showMenu = () => {
         menuFunctions)
 };
 
-startGame = () => showMenu()
+const startGame = () => showMenu()
 
+loadGame()
+startStarving(myTamagotchi);
 startGame();
 
 
-// save in data json with readline exit
-// timers at the top of whole this functional that r gonna to count - water - food;
 // use stages of game for avaluabily of buying things
+// add thirst
