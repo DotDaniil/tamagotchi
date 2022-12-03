@@ -10,14 +10,14 @@ const characterDelete = (character) =>  {
     }
 }
 
-const createHealth = (character) => character.modifyField('hp',2 + generateRandomInteger(0))
+const createHealth = (character) => character.modifyField('hp',10 + generateRandomInteger(0))
 const createIntellect = (character) => character.modifyField('intellect', 90 + generateRandomInteger(10));
 const createStrength = (character) => character.modifyField('strength', 1 + generateRandomInteger(2));
-const createFood = (character) => character.modifyField('food', 1 + generateRandomInteger(0));
+const createFood = (character) => character.modifyField('food', 10 + generateRandomInteger(0));
 const createWater = (character) => character.modifyField('water', 50 + generateRandomInteger(50));
 const createMoney = (character) => character.modifyField('money', 1 + generateRandomInteger(4));
 const createItems = (character) => character.modifyField('items', {'item1': 'test', 'item2': 'test'})
-const createAliveFlag = (character) => character.modifyField('alive', true);
+const createDebugModeFlag = (character) => character.modifyField('debugMode', true);
 
 const copyCharacterToState = (temporaryStateCharacter, stateCharacter) => {
     const temporaryStateCharacterCopy = JSON.parse(JSON.stringify(temporaryStateCharacter));
@@ -30,7 +30,7 @@ const copyCharacterToState = (temporaryStateCharacter, stateCharacter) => {
     }
 }
 
-const createRandomCharStateInterval = (key, character) => character.modifyField(key, generateRandomInteger(100));
+const createRandomCharStateInterval = (key, character) => character.modifyField(key, 10 + generateRandomInteger(20));
 
 const deleteCharStateInterval = (key, character) => character.delField(key);
 const delOnePoint = (key, character) => character.modifyField(key, character[key] -= 1);
@@ -46,7 +46,7 @@ module.exports = {
     createWater,
     createMoney,
     createItems,
-    createAliveFlag,
+    createDebugModeFlag,
     copyCharacterToState,
     delOnePoint,
     createRandomCharStateInterval,

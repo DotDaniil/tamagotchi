@@ -14,7 +14,7 @@ const {
 
 const { createNewTamagotchi } = require('./mechanics/create-new-tamagotchi');
 const { startStarving } = require('./mechanics/starving');
-const { startDying } = require('./mechanics/dying');
+const { isDebugging } = require("./locators");
 
 const loadGame = () => {
     const loadedData = JSON.parse(fs.readFileSync('./data/character.json'));
@@ -28,7 +28,7 @@ const saveGame = () => {
 }
 
 const menuBack = (prevMenu, prevText) => {
-   console.clear();
+    (!isDebugging(myTamagotchi) && console.clear());
     console.log(prevText)
     readline.question('\n Type `r` to return: \n', (menu) => {
         switch (menu.trim()) {
@@ -72,7 +72,7 @@ const menuFunctions = (input, showMenu) => {
 }
 
 const showMenu = () => {
-   console.clear()
+    (!isDebugging(myTamagotchi) && console.clear());
     readline.question(`Main Menu \n 
     1. My tamagotchi
     ${!!myTamagotchi.money ? '2. Save Game (1 coin)': ''}
@@ -86,7 +86,6 @@ const startGame = () => showMenu()
 
 loadGame();
 startStarving(myTamagotchi);
-startDying(myTamagotchi);
 startGame();
 
 

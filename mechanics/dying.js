@@ -7,28 +7,39 @@ const {
 
 const {
     delOnePoint,
-    characterDelete
+    characterDelete, copyCharacterToState
 } = require("../state-operations");
 
 const startDying = (temporaryCharacter) => {
 
-    const temporaryCharacterExists = characterExists(temporaryCharacter)
-    const dyingDelay = 10000
+    //TODO: удалить дубликат процесса функции, когда будет реализовано жажда
 
-    if (temporaryCharacterExists) {
-        if (characterIsDying(temporaryCharacter)) {
-            let timer_1 = setInterval(() => {
+    copyCharacterToState(temporaryCharacter, myTamagotchi);
+
+        let dying_interval = setInterval(() => {
+
+            if (characterExists(temporaryCharacter)) {
+
+                if (characterIsDying(temporaryCharacter)) {
+
                 delOnePoint('hp', temporaryCharacter)
+                copyCharacterToState(temporaryCharacter, myTamagotchi);
+
                 console.log(`Tamagochi is dying... HP is ${temporaryCharacter.hp}!`)
+
+                }
+
                 if (noHp(temporaryCharacter)) {
                     characterDelete(myTamagotchi)
-                    clearInterval(timer_1)
+                    clearInterval(dying_interval)
                     console.log('\n Tamagotchi is dead T_T \n || "*" ... RIP ... "*" || \n');
                     process.exit()
                 }
-            },dyingDelay)
-        }
-    }
+
+            }
+
+        },10000)
+
 }
 
 module.exports = { startDying };

@@ -8,9 +8,10 @@ const {
     createMoney,
     createAliveFlag
 } = require("../state-operations");
+const { isDebugging } = require("../locators");
 
 const createNewTamagotchi = (readline, character, showMenu) => {
-   console.clear();
+    (!isDebugging(character) && console.clear());
 
     const askName = (nextFunction) => readline.question('\n Enter tamagotchi name: \n', (name) => {
         character.modifyField('name', name);

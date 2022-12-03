@@ -3,3 +3,5 @@ const generateRandomInteger = (max) => {
 }
 
 module.exports = { generateRandomInteger };
+
+//-1 to state because float number generating

@@ -8,43 +8,63 @@ const {
     copyCharacterToState,
     delOnePoint
 } = require("../state-operations");
-const {hasFood, characterExists, doesIntervalRunning, characterIsDying} = require("../locators");
+const {
+    isDebugging,
+    characterExists,
+    isIntervalZero,
+    characterIsDying,
+    doesPropertyExists,
+} = require("../locators");
 
 const startStarving = (temporaryCharacter) => {
+    // copyCharacterToState(temporaryCharacter, myTamagotchi);
+    (isDebugging(temporaryCharacter) && console.log('start_starving...'));
 
-    deleteCharStateInterval('starvingDelay', temporaryCharacter);
+    createRandomCharStateInterval('starvingDelay', temporaryCharacter);
+    copyCharacterToState(temporaryCharacter, myTamagotchi);
 
-    let timer_1 = setInterval(() => {
-        if (hasFood(temporaryCharacter)) {
+    let starving_interval = setInterval(() => {
+        (isDebugging(temporaryCharacter) && console.log('starving_interval_is_running'));
+
             if (characterExists(temporaryCharacter)) {
-                if (!doesIntervalRunning('starvingDelay', temporaryCharacter) && hasFood(temporaryCharacter)) {
-                    createRandomCharStateInterval('starvingDelay', temporaryCharacter);
+                (isDebugging(temporaryCharacter) && console.log('character_found!'));
+
+                if(characterIsDying(temporaryCharacter)) {
+                    (isDebugging(temporaryCharacter) && console.log('character_is_dying!!!'));
+
+                    deleteCharStateInterval('starvingDelay', temporaryCharacter);
                     copyCharacterToState(temporaryCharacter, myTamagotchi);
-                    let timer_2 = setInterval(() => {
-                        delOnePoint('starvingDelay', temporaryCharacter)
+
+                    clearInterval(starving_interval);
+
+                    startDying(temporaryCharacter)
+                }
+
+                if (doesPropertyExists('starvingDelay', temporaryCharacter)) {
+
+
+                    delOnePoint('starvingDelay', temporaryCharacter)
+                        // console.log(temporaryCharacter);
+                   if (isDebugging(temporaryCharacter)) console.log('delay', temporaryCharacter.starvingDelay);
+                    copyCharacterToState(temporaryCharacter, myTamagotchi);
+
+                    if (isIntervalZero('starvingDelay', temporaryCharacter)) {
+
+                        delOnePoint('food', temporaryCharacter);
                         copyCharacterToState(temporaryCharacter, myTamagotchi);
-                        if (characterIsDying(temporaryCharacter)) {
-                            clearInterval(timer_2)
-                        }
-                    },1000)
+
+                        console.log(`starving... food is ${temporaryCharacter.food}`)
+
+                        deleteCharStateInterval('starvingDelay', temporaryCharacter);
+                        copyCharacterToState(temporaryCharacter, myTamagotchi);
+
+                        createRandomCharStateInterval('starvingDelay', temporaryCharacter);
+                        copyCharacterToState(temporaryCharacter, myTamagotchi);
+                    }
                 }
-                if (temporaryCharacter.starvingDelay === 0 && hasFood(temporaryCharacter)) {
-                    delOnePoint('food', temporaryCharacter);
-                    copyCharacterToState(temporaryCharacter, myTamagotchi);
-                    deleteCharStateInterval('starvingDelay', temporaryCharacter);
-                    copyCharacterToState(temporaryCharacter, myTamagotchi);
-                    createRandomCharStateInterval('starvingDelay', temporaryCharacter)
-                    copyCharacterToState(temporaryCharacter, myTamagotchi);
-                    console.log(`starving... food is ${temporaryCharacter.food}`)
-                }
-                if (!hasFood(temporaryCharacter)) {
-                    deleteCharStateInterval('starvingDelay', temporaryCharacter);
-                    startDying(temporaryCharacter);
-                }
+
             }
-        } else {
-            clearInterval(timer_1)
-        }
+
     },1000)
 }
 
