@@ -1,3 +1,5 @@
+import { createDebugModeFlag } from "./state-operations.js";
+
 class State {
     constructor(state) {
         this.state = state;
@@ -10,6 +12,5 @@ class State {
     }
 }
 
-let myTamagotchi = new State('tamagotchi');
-
-module.exports = { myTamagotchi };
+export const myTamagotchi = new State('tamagotchi');
+//createDebugModeFlag(myTamagotchi);

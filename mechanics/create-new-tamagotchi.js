@@ -1,16 +1,17 @@
-const {
+import {
+    createFood,
     createHealth,
     createIntellect,
-    createStrength,
-    createFood,
-    createWater,
     createItems,
     createMoney,
-    createAliveFlag
-} = require("../state-operations");
+    createStrength,
+    createWater
+} from "../state-operations.js";
 
-const createNewTamagotchi = (readline, character, showMenu) => {
-   console.clear();
+import { isDebugging } from "../locators.js";
+
+export const createNewTamagotchi = (readline, character, showMenu) => {
+    (!isDebugging(character) && console.clear());
 
     const askName = (nextFunction) => readline.question('\n Enter tamagotchi name: \n', (name) => {
         character.modifyField('name', name);
@@ -37,7 +38,6 @@ const createNewTamagotchi = (readline, character, showMenu) => {
             createWater(character);
             createItems(character);
             createMoney(character);
-            createAliveFlag(character);
 
             showMenu();
         }
@@ -48,5 +48,3 @@ const createNewTamagotchi = (readline, character, showMenu) => {
     initiateCreation();
 
 }
-
-module.exports = { createNewTamagotchi }

@@ -1,51 +1,79 @@
-const { myTamagotchi } = require('../state');
+import { myTamagotchi } from '../state.js';
 
-const { startDying } = require('./dying');
+import { startDying } from './dying.js';
 
-const {
+import {
     deleteCharStateInterval,
     createRandomCharStateInterval,
     copyCharacterToState,
     delOnePoint
-} = require("../state-operations");
-const {hasFood, characterExists, doesIntervalRunning, characterIsDying} = require("../locators");
+} from "../state-operations.js";
 
-const startStarving = (temporaryCharacter) => {
+import {
+    isDebugging,
+    characterExists,
+    isIntervalZero,
+    characterIsDying,
+    doesPropertyExists,
+    characterHasLittleWater,
+    foodIsNotZero,
+} from "../locators.js";
 
-    deleteCharStateInterval('starvingDelay', temporaryCharacter);
+export const startStarving = (temporaryCharacter) => {
+    copyCharacterToState(temporaryCharacter, myTamagotchi);
 
-    let timer_1 = setInterval(() => {
-        if (hasFood(temporaryCharacter)) {
+    (isDebugging(temporaryCharacter) && console.log('start_starving...'));
+
+    createRandomCharStateInterval('starvingDelay', temporaryCharacter);
+    copyCharacterToState(temporaryCharacter, myTamagotchi);
+
+    let starving_interval = setInterval(() => {
+        (isDebugging(temporaryCharacter) && console.log('starving_interval_is_running'));
+
             if (characterExists(temporaryCharacter)) {
-                if (!doesIntervalRunning('starvingDelay', temporaryCharacter) && hasFood(temporaryCharacter)) {
-                    createRandomCharStateInterval('starvingDelay', temporaryCharacter);
+                (isDebugging(temporaryCharacter) && console.log('character_found!'));
+
+                if(characterIsDying(temporaryCharacter)) {
+                    (isDebugging(temporaryCharacter) && console.log('character_is_dying!!!'));
+
+                    deleteCharStateInterval('starvingDelay', temporaryCharacter);
                     copyCharacterToState(temporaryCharacter, myTamagotchi);
-                    let timer_2 = setInterval(() => {
-                        delOnePoint('starvingDelay', temporaryCharacter)
+
+                    clearInterval(starving_interval);
+
+                    startDying(temporaryCharacter)
+                }
+
+                if (doesPropertyExists('starvingDelay', temporaryCharacter)) {
+
+
+                    delOnePoint('starvingDelay', temporaryCharacter)
+                   if (isDebugging(temporaryCharacter)) console.log('starvingDelay', temporaryCharacter.starvingDelay);
+                    copyCharacterToState(temporaryCharacter, myTamagotchi);
+
+                    if (isIntervalZero('starvingDelay', temporaryCharacter)) {
+
+                        delOnePoint('food', temporaryCharacter);
                         copyCharacterToState(temporaryCharacter, myTamagotchi);
-                        if (characterIsDying(temporaryCharacter)) {
-                            clearInterval(timer_2)
+
+                        console.log(`starving... food is ${temporaryCharacter.food}`)
+
+                        if (characterHasLittleWater(temporaryCharacter) && foodIsNotZero(temporaryCharacter)) {
+                            delOnePoint('food', temporaryCharacter);
+                            console.log(`NO WATER, DOUBLE STARVING... food is ${temporaryCharacter.food}`)
+                            copyCharacterToState(temporaryCharacter, myTamagotchi);
                         }
-                    },1000)
+
+                        deleteCharStateInterval('starvingDelay', temporaryCharacter);
+                        copyCharacterToState(temporaryCharacter, myTamagotchi);
+
+                        createRandomCharStateInterval('starvingDelay', temporaryCharacter);
+                        copyCharacterToState(temporaryCharacter, myTamagotchi);
+                    }
+
                 }
-                if (temporaryCharacter.starvingDelay === 0 && hasFood(temporaryCharacter)) {
-                    delOnePoint('food', temporaryCharacter);
-                    copyCharacterToState(temporaryCharacter, myTamagotchi);
-                    deleteCharStateInterval('starvingDelay', temporaryCharacter);
-                    copyCharacterToState(temporaryCharacter, myTamagotchi);
-                    createRandomCharStateInterval('starvingDelay', temporaryCharacter)
-                    copyCharacterToState(temporaryCharacter, myTamagotchi);
-                    console.log(`starving... food is ${temporaryCharacter.food}`)
-                }
-                if (!hasFood(temporaryCharacter)) {
-                    deleteCharStateInterval('starvingDelay', temporaryCharacter);
-                    startDying(temporaryCharacter);
-                }
+
             }
-        } else {
-            clearInterval(timer_1)
-        }
+
     },1000)
 }
-
-module.exports = { startStarving };

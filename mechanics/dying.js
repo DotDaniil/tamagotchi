@@ -1,34 +1,52 @@
-const {myTamagotchi} = require("../state");
+import { myTamagotchi } from "../state.js";
 
-const {
+import {
     characterExists,
     characterIsDying,
-    noHp} = require("../locators");
+    noHp,
+    withoutDuplicate,
+} from "../locators.js";
 
-const {
+import {
     delOnePoint,
-    characterDelete
-} = require("../state-operations");
+    characterDelete,
+    copyCharacterToState,
+    addOnePoint
+} from "../state-operations.js";
 
-const startDying = (temporaryCharacter) => {
+export const startDying = (temporaryCharacter) => {
 
-    const temporaryCharacterExists = characterExists(temporaryCharacter)
-    const dyingDelay = 10000
+    //deletes duplicates of dying process
 
-    if (temporaryCharacterExists) {
-        if (characterIsDying(temporaryCharacter)) {
-            let timer_1 = setInterval(() => {
-                delOnePoint('hp', temporaryCharacter)
-                console.log(`Tamagochi is dying... HP is ${temporaryCharacter.hp}!`)
+    addOnePoint('dyingProcess', temporaryCharacter);
+    copyCharacterToState(temporaryCharacter, myTamagotchi);
+
+    if (withoutDuplicate(temporaryCharacter)) {
+
+    //
+
+        let dying_interval = setInterval(() => {
+
+            if (characterExists(temporaryCharacter)) {
+
+                if (characterIsDying(temporaryCharacter)) {
+
+                    delOnePoint('hp', temporaryCharacter)
+                    copyCharacterToState(temporaryCharacter, myTamagotchi);
+
+                    console.log(`Tamagochi is dying... HP is ${temporaryCharacter.hp}!`)
+
+                }
+
                 if (noHp(temporaryCharacter)) {
                     characterDelete(myTamagotchi)
-                    clearInterval(timer_1)
+                    clearInterval(dying_interval)
                     console.log('\n Tamagotchi is dead T_T \n || "*" ... RIP ... "*" || \n');
                     process.exit()
                 }
-            },dyingDelay)
-        }
+
+            }
+
+        },10000)
     }
 }
-
-module.exports = { startDying };
