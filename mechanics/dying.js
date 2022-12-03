@@ -1,18 +1,19 @@
-const {myTamagotchi} = require("../state");
+import { myTamagotchi } from "../state.js";
 
-const {
+import {
     characterExists,
     characterIsDying,
-    noHp} = require("../locators");
+    noHp,
+} from "../locators.js";
 
-const {
+import {
     delOnePoint,
     characterDelete, copyCharacterToState
-} = require("../state-operations");
+} from "../state-operations.js";
 
-const startDying = (temporaryCharacter) => {
+export const startDying = (temporaryCharacter) => {
 
-    //TODO: удалить дубликат процесса функции, когда будет реализовано жажда
+    //TODO: удалить дубликат процесса функции, когда будет реализована жажда
 
     copyCharacterToState(temporaryCharacter, myTamagotchi);
 
@@ -41,5 +42,3 @@ const startDying = (temporaryCharacter) => {
         },10000)
 
 }
-
-module.exports = { startDying };

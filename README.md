@@ -4,10 +4,15 @@ my tiny node.js petproject game
 
 still in progress...
 
+0.0.7 #chagelog
+-
+
+-refactors from commonjs to modules
 
 
 0.0.6 #changelog
 -
+
 -code starving refactor && dying refactor
 
 

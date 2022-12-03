@@ -1,4 +1,4 @@
-const {createDebugModeFlag} = require("./state-operations");
+import { createDebugModeFlag } from "./state-operations.js";
 
 class State {
     constructor(state) {
@@ -12,7 +12,5 @@ class State {
     }
 }
 
-let myTamagotchi = new State('tamagotchi');
-//createDebugModeFlag(myTamagotchi);
-
-module.exports = { myTamagotchi };
+export const myTamagotchi = new State('tamagotchi');
+createDebugModeFlag(myTamagotchi);

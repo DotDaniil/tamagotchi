@@ -1,20 +1,20 @@
-const readline = require('readline').createInterface({
-    input: process.stdin,
-    output: process.stdout
-});
-const fs = require('fs');
+import * as readline from 'node:readline';
+import { stdin as input, stdout as output } from 'node:process';
+const rl = readline.createInterface({ input, output });
 
-const { myTamagotchi } = require('./state');
+import fs from 'fs';
 
-const {
+import { myTamagotchi } from './state.js';
+
+import {
     characterRemoveMoney,
     characterAddMoney,
     characterDelete,
-} = require('./state-operations');
+} from './state-operations.js';
 
-const { createNewTamagotchi } = require('./mechanics/create-new-tamagotchi');
-const { startStarving } = require('./mechanics/starving');
-const { isDebugging } = require("./locators");
+import { createNewTamagotchi } from './mechanics/create-new-tamagotchi.js';
+import { startStarving } from './mechanics/starving.js';
+import { isDebugging } from "./locators.js";
 
 const loadGame = () => {
     const loadedData = JSON.parse(fs.readFileSync('./data/character.json'));
@@ -30,7 +30,7 @@ const saveGame = () => {
 const menuBack = (prevMenu, prevText) => {
     (!isDebugging(myTamagotchi) && console.clear());
     console.log(prevText)
-    readline.question('\n Type `r` to return: \n', (menu) => {
+    rl.question('\n Type `r` to return: \n', (menu) => {
         switch (menu.trim()) {
             case 'r':
                 prevMenu()
@@ -49,7 +49,7 @@ const menuFunctions = (input, showMenu) => {
         switch (input.trim()) {
             case '1':
                 const menuPart = `Your tamagotchi: \n ${JSON.stringify(myTamagotchi)}`;
-                myTamagotchi.hasOwnProperty('name') ? console.log(menuPart) : createNewTamagotchi(readline, myTamagotchi, showMenu)
+                myTamagotchi.hasOwnProperty('name') ? console.log(menuPart) : createNewTamagotchi(rl, myTamagotchi, showMenu)
                 menuBack(showMenu, menuPart)
                 break;
             case why_do_i_have_case_2:
@@ -73,7 +73,7 @@ const menuFunctions = (input, showMenu) => {
 
 const showMenu = () => {
     (!isDebugging(myTamagotchi) && console.clear());
-    readline.question(`Main Menu \n 
+    rl.question(`Main Menu \n 
     1. My tamagotchi
     ${!!myTamagotchi.money ? '2. Save Game (1 coin)': ''}
     

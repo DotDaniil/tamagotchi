@@ -1,22 +1,23 @@
-const { myTamagotchi } = require('../state');
+import { myTamagotchi } from '../state.js';
 
-const { startDying } = require('./dying');
+import { startDying } from './dying.js';
 
-const {
+import {
     deleteCharStateInterval,
     createRandomCharStateInterval,
     copyCharacterToState,
     delOnePoint
-} = require("../state-operations");
-const {
+} from "../state-operations.js";
+
+import {
     isDebugging,
     characterExists,
     isIntervalZero,
     characterIsDying,
     doesPropertyExists,
-} = require("../locators");
+} from "../locators.js";
 
-const startStarving = (temporaryCharacter) => {
+export const startStarving = (temporaryCharacter) => {
     // copyCharacterToState(temporaryCharacter, myTamagotchi);
     (isDebugging(temporaryCharacter) && console.log('start_starving...'));
 
@@ -67,5 +68,3 @@ const startStarving = (temporaryCharacter) => {
 
     },1000)
 }
-
-module.exports = { startStarving };
