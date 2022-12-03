@@ -8,6 +8,9 @@ still in progress...
 -
 
 -refactors from commonjs to modules
+-online stats code added (not in game)
+-starving updated (double starving when water < 10)
+-thirsting added
 
 
 0.0.6 #changelog

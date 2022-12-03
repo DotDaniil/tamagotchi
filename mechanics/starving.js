@@ -15,10 +15,13 @@ import {
     isIntervalZero,
     characterIsDying,
     doesPropertyExists,
+    characterHasLittleWater,
+    foodIsNotZero,
 } from "../locators.js";
 
 export const startStarving = (temporaryCharacter) => {
-    // copyCharacterToState(temporaryCharacter, myTamagotchi);
+    copyCharacterToState(temporaryCharacter, myTamagotchi);
+
     (isDebugging(temporaryCharacter) && console.log('start_starving...'));
 
     createRandomCharStateInterval('starvingDelay', temporaryCharacter);
@@ -45,8 +48,7 @@ export const startStarving = (temporaryCharacter) => {
 
 
                     delOnePoint('starvingDelay', temporaryCharacter)
-                        // console.log(temporaryCharacter);
-                   if (isDebugging(temporaryCharacter)) console.log('delay', temporaryCharacter.starvingDelay);
+                   if (isDebugging(temporaryCharacter)) console.log('starvingDelay', temporaryCharacter.starvingDelay);
                     copyCharacterToState(temporaryCharacter, myTamagotchi);
 
                     if (isIntervalZero('starvingDelay', temporaryCharacter)) {
@@ -56,12 +58,19 @@ export const startStarving = (temporaryCharacter) => {
 
                         console.log(`starving... food is ${temporaryCharacter.food}`)
 
+                        if (characterHasLittleWater(temporaryCharacter) && foodIsNotZero(temporaryCharacter)) {
+                            delOnePoint('food', temporaryCharacter);
+                            console.log(`NO WATER, DOUBLE STARVING... food is ${temporaryCharacter.food}`)
+                            copyCharacterToState(temporaryCharacter, myTamagotchi);
+                        }
+
                         deleteCharStateInterval('starvingDelay', temporaryCharacter);
                         copyCharacterToState(temporaryCharacter, myTamagotchi);
 
                         createRandomCharStateInterval('starvingDelay', temporaryCharacter);
                         copyCharacterToState(temporaryCharacter, myTamagotchi);
                     }
+
                 }
 
             }

@@ -4,18 +4,26 @@ import {
     characterExists,
     characterIsDying,
     noHp,
+    withoutDuplicate,
 } from "../locators.js";
 
 import {
     delOnePoint,
-    characterDelete, copyCharacterToState
+    characterDelete,
+    copyCharacterToState,
+    addOnePoint
 } from "../state-operations.js";
 
 export const startDying = (temporaryCharacter) => {
 
-    //TODO: удалить дубликат процесса функции, когда будет реализована жажда
+    //deletes duplicates of dying process
 
+    addOnePoint('dyingProcess', temporaryCharacter);
     copyCharacterToState(temporaryCharacter, myTamagotchi);
+
+    if (withoutDuplicate(temporaryCharacter)) {
+
+    //
 
         let dying_interval = setInterval(() => {
 
@@ -23,10 +31,10 @@ export const startDying = (temporaryCharacter) => {
 
                 if (characterIsDying(temporaryCharacter)) {
 
-                delOnePoint('hp', temporaryCharacter)
-                copyCharacterToState(temporaryCharacter, myTamagotchi);
+                    delOnePoint('hp', temporaryCharacter)
+                    copyCharacterToState(temporaryCharacter, myTamagotchi);
 
-                console.log(`Tamagochi is dying... HP is ${temporaryCharacter.hp}!`)
+                    console.log(`Tamagochi is dying... HP is ${temporaryCharacter.hp}!`)
 
                 }
 
@@ -40,5 +48,5 @@ export const startDying = (temporaryCharacter) => {
             }
 
         },10000)
-
+    }
 }

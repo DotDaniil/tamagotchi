@@ -13,4 +13,4 @@ class State {
 }
 
 export const myTamagotchi = new State('tamagotchi');
-createDebugModeFlag(myTamagotchi);
+//createDebugModeFlag(myTamagotchi);
