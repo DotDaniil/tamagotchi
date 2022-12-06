@@ -9,14 +9,22 @@ import { myTamagotchi } from './state.js';
 import {
     characterRemoveMoney,
     characterAddMoney,
-    characterDelete, copyCharacterToState, backToZeroPoint,
+    characterDelete,
+    backToZeroPoint,
+    addOnePoint,
+    setMainMenuIsOpened,
 } from './state-operations.js';
 
 import { createNewTamagotchi } from './mechanics/create-new-tamagotchi.js';
 import { startStarving } from './mechanics/starving.js';
-import {characterExists, isDebugging} from "./locators.js";
-import {startThirsting} from "./mechanics/thirsting.js";
-import {startDying} from "./mechanics/dying.js";
+import {
+    characterExists, characterHasLittleWater, characterIsDying, foodIntervalComing,
+    isDebugging,
+    isMainMenuOpened, waterIntervalComing,
+    withoutUpdateStatsDuplicate
+} from "./locators.js";
+import { startThirsting } from "./mechanics/thirsting.js";
+import { startDying } from "./mechanics/dying.js";
 
 const loadGame = () => {
     const loadedData = JSON.parse(fs.readFileSync('./data/character.json'));
@@ -50,52 +58,101 @@ const menuFunctions = (input, showMenu) => {
 
         switch (input.trim()) {
             case '1':
+                setMainMenuIsOpened(myTamagotchi);
                 const menuPart = `Your tamagotchi: \n ${JSON.stringify(myTamagotchi)}`;
                 myTamagotchi.hasOwnProperty('name') ? console.log(menuPart) : createNewTamagotchi(rl, myTamagotchi, showMenu)
                 menuBack(showMenu, menuPart)
                 break;
             case why_do_i_have_case_2:
+                setMainMenuIsOpened(myTamagotchi);
                 characterRemoveMoney(1, myTamagotchi);
                 saveGame();
                 menuBack(showMenu,`Game saved! Money left: ${myTamagotchi.money} coins`)
                 break;
             case `cheatmoney`:
+                setMainMenuIsOpened(myTamagotchi);
                 characterAddMoney(5, myTamagotchi);
                 menuBack(showMenu, 'Money Added!')
                 break;
             case `delchar`:
+                setMainMenuIsOpened(myTamagotchi);
                 characterDelete(myTamagotchi);
                 menuBack(showMenu, 'Character deleted!')
                 break;
             default: (() => {
+                setMainMenuIsOpened(myTamagotchi);
                 showMenu()
             })()
         }
 }
 
 const showMenu = () => {
+    console.clear();
 
-    // refactor
-    const copyCharParam = (temporaryCharacter, param) => temporaryCharacter[param];
+    setMainMenuIsOpened(myTamagotchi);
 
-    const hpToShow = copyCharParam(myTamagotchi, 'hp');
-    const waterToShow = copyCharParam(myTamagotchi, 'water');
-    const foodToShow = copyCharParam(myTamagotchi, 'food');
+    const setMenuTextWithStats = (temporaryCharacter) => {
+        const { hp, food, water, name, money }  = temporaryCharacter;
+
+        return `Main Menu \n 
+    1. ${characterExists(myTamagotchi) ? `My tamagotchi: ${name}` : 'Create tamagotchi'}
+    ${!!money ? '2. Save Game (1 coin)': ''}
+    
+    ${characterExists(myTamagotchi) ? 
+    `___________
+    | HP:${hp} ${characterIsDying(myTamagotchi) ? '<' : ''}
+    | FOOD:${food} ${foodIntervalComing(myTamagotchi) ? '<': ''} ${(characterHasLittleWater(myTamagotchi)) ? 'X2<<' : ''}
+    | WATER:${water} ${waterIntervalComing(myTamagotchi) ? '<' : ''}  
+    | MONEY:${money}
+    ___________`
+            : ''}
+    
+    ${(characterHasLittleWater(myTamagotchi)) ? 'WATER IS LESS THEN 10, DOUBLE STARVING' : ''}
+
+    cheats: cheatmoney (add 5 money); delchar (deletes character)
+      \n Type menu number... \n`;
+    }
+
+    let menuText = setMenuTextWithStats(myTamagotchi);
+
+    //update stats
+
+    addOnePoint('updateStatsProcess', myTamagotchi);
+
+    if (withoutUpdateStatsDuplicate(myTamagotchi)) {
+
+        let tempFood,tempWater,tempHp;
+
+        const update_stats_interval = setInterval(() => {
+
+           if (characterExists(myTamagotchi) && isMainMenuOpened(myTamagotchi)) {
+
+               if (
+                   tempWater !== myTamagotchi.water ||
+                   tempFood !== myTamagotchi.food ||
+                   tempHp !== myTamagotchi.hp ||
+                   foodIntervalComing(myTamagotchi) ||
+                   waterIntervalComing(myTamagotchi)
+               ) {
+                       tempWater = myTamagotchi.water;
+                       tempFood = myTamagotchi.food;
+                       tempHp = myTamagotchi.hp;
+
+                   console.clear();
+                   console.log(setMenuTextWithStats(myTamagotchi))
+               }
+
+           }
+        }, 1000)
+    }
 
     //
 
     (!isDebugging(myTamagotchi) && console.clear());
-    rl.question(`Main Menu \n 
-    1. ${characterExists(myTamagotchi) ? `My tamagotchi: ${myTamagotchi.name}` : 'Create tamagotchi'}
-    ${!!myTamagotchi.money ? '2. Save Game (1 coin)': ''}
-    
 
+    rl.question(menuText,
+        (input) => menuFunctions(input, showMenu));
 
-    cheats: cheatmoney (add 5 money); delchar (deletes character)
-      \n Type menu number... \n`,
-        (input) => menuFunctions(input, showMenu))
-
-    // ${characterExists(myTamagotchi) ? `|HP:${hpToShow} FOOD:${foodToShow} WATER:${waterToShow}|` : ''}
 };
 
 const startGame = () => showMenu()
@@ -104,30 +161,12 @@ loadGame();
 startStarving(myTamagotchi);
 startThirsting(myTamagotchi);
 backToZeroPoint('dyingProcess', myTamagotchi);
+backToZeroPoint('updateStatsProcess', myTamagotchi);
 startDying(myTamagotchi);
 
-const startGameWithStatsUpdate = () => {
 
-    console.clear();
-    startGame();
-
-    let tempFood,tempWater,tempHp
-    const stats_update_timer = setInterval(() => {
-
-        if (tempWater !== myTamagotchi.water || tempFood !== myTamagotchi.food || tempHp !== myTamagotchi.hp) {
-            if (characterExists(myTamagotchi)) {
-                tempWater = myTamagotchi.water;
-                tempFood = myTamagotchi.food;
-                tempHp = myTamagotchi.hp;
-                console.clear();
-                startGame();
-            }
-        }
-
-    }, 1000)
-}
 startGame();
-// startGameWithStatsUpdate()
+
 
 
 
@@ -135,6 +174,6 @@ startGame();
 
 // use stages of game for avaluabily of buying things
 // killing process state handling
-// restore delay after load char
-// online stats
+// restore delay after load char ??
 // delete duplicates of starving and thirsting func when restore func (items) wll be added
+// fix menu bug

@@ -4,7 +4,13 @@ my tiny node.js petproject game
 
 still in progress...
 
-0.0.7 #chagelog
+0.0.8 #changelog
+-
+
+-online stats added
+
+
+0.0.7 #changelog
 -
 
 -refactors from commonjs to modules
