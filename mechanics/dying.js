@@ -34,7 +34,7 @@ export const startDying = (temporaryCharacter) => {
                     delOnePoint('hp', temporaryCharacter)
                     copyCharacterToState(temporaryCharacter, myTamagotchi);
 
-                    console.log(`Tamagochi is dying... HP is ${temporaryCharacter.hp}!`)
+                   // console.log(`Tamagochi is dying... HP is ${temporaryCharacter.hp}!`)
 
                 }
 

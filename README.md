@@ -8,7 +8,7 @@ still in progress...
 -
 
 -online stats added
-
+-menu refactored to different files
 
 0.0.7 #changelog
 -
