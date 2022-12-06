@@ -17,6 +17,8 @@ export const createFood = (character) => character.modifyField('food', 20 + gene
 export const createWater = (character) => character.modifyField('water', 12 + generateRandomInteger(0));
 export const createMoney = (character) => character.modifyField('money', 1 + generateRandomInteger(4));
 export const createItems = (character) => character.modifyField('items', {'item1': 'test', 'item2': 'test'})
+
+export const createIsMainMenuOpened = (character) => character.modifyField('isMainMenuOpened', false);
 export const createDebugModeFlag = (character) => character.modifyField('debugMode', true);
 
 export const copyCharacterToState = (temporaryStateCharacter, stateCharacter) => {
@@ -31,7 +33,7 @@ export const copyCharacterToState = (temporaryStateCharacter, stateCharacter) =>
 }
 
 export const createRandomCharStateInterval = (key, character) => character.modifyField(key, 10 + generateRandomInteger(20));
-
+export const setMainMenuIsOpened = (character) => character.modifyField('isMainMenuOpened', !character.isMainMenuOpened);
 export const deleteCharStateInterval = (key, character) => character.delField(key);
 export const delOnePoint = (key, character) => character.modifyField(key, character[key] -= 1);
 export const addOnePoint = (key, character) => character.modifyField(key, character[key] += 1);

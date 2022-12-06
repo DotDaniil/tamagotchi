@@ -4,7 +4,7 @@ import {
     characterExists,
     characterIsDying,
     noHp,
-    withoutDuplicate,
+    withoutDyingDuplicate,
 } from "../locators.js";
 
 import {
@@ -21,7 +21,7 @@ export const startDying = (temporaryCharacter) => {
     addOnePoint('dyingProcess', temporaryCharacter);
     copyCharacterToState(temporaryCharacter, myTamagotchi);
 
-    if (withoutDuplicate(temporaryCharacter)) {
+    if (withoutDyingDuplicate(temporaryCharacter)) {
 
     //
 
@@ -34,7 +34,7 @@ export const startDying = (temporaryCharacter) => {
                     delOnePoint('hp', temporaryCharacter)
                     copyCharacterToState(temporaryCharacter, myTamagotchi);
 
-                    console.log(`Tamagochi is dying... HP is ${temporaryCharacter.hp}!`)
+                   // console.log(`Tamagochi is dying... HP is ${temporaryCharacter.hp}!`)
 
                 }
 
@@ -44,7 +44,6 @@ export const startDying = (temporaryCharacter) => {
                     console.log('\n Tamagotchi is dead T_T \n || "*" ... RIP ... "*" || \n');
                     process.exit()
                 }
-
             }
 
         },10000)

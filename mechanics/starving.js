@@ -60,7 +60,7 @@ export const startStarving = (temporaryCharacter) => {
 
                         if (characterHasLittleWater(temporaryCharacter) && foodIsNotZero(temporaryCharacter)) {
                             delOnePoint('food', temporaryCharacter);
-                            console.log(`NO WATER, DOUBLE STARVING... food is ${temporaryCharacter.food}`)
+                            console.log(`WATER IS LESS THEN 10, DOUBLE STARVING... food is ${temporaryCharacter.food}`)
                             copyCharacterToState(temporaryCharacter, myTamagotchi);
                         }
 
