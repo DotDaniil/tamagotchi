@@ -1,8 +1,11 @@
 import {
     addOnePoint,
+    characterAddFood,
+    characterAddHp,
     characterAddMoney,
-    characterDelete,
-    characterRemoveMoney,
+    characterAddWater,
+    characterDelete, characterDelFood, characterDelHp, characterDelWater,
+    characterRemoveMoney, setMainMenuIsClosed,
     setMainMenuIsOpened
 } from "../state-operations.js";
 import { myTamagotchi } from "../state.js";
@@ -12,7 +15,7 @@ import {
     characterIsDying,
     foodIntervalComing,
     isDebugging,
-    isMainMenuOpened,
+    isMainMenuOpened, isPointZero,
     waterIntervalComing,
     withoutUpdateStatsDuplicate
 } from "../locators.js";
@@ -20,13 +23,20 @@ import { createNewTamagotchi } from "../mechanics/create-new-tamagotchi.js";
 import { menuBack } from "./menu-back.js";
 import { saveGame } from "./save-load.js";
 
-// import * as readline from 'node:readline';
-import readline from "node:readline";
+import * as readline from 'node:readline';
+// import readline from "node:readline";
 import { stdin as input, stdout as output } from "node:process";
 
 
 
 const rl = readline.createInterface({ input, output });
+
+const tamagotchiPic = `
+    ()=() 
+    (^;^) 
+    C   C 
+    ()_() 
+`;
 
 
 export const menuFunctions = (input, showMenu) => {
@@ -35,30 +45,60 @@ export const menuFunctions = (input, showMenu) => {
 
     switch (input.trim()) {
         case '1':
-            setMainMenuIsOpened(myTamagotchi);
             const menuPart = `Your tamagotchi: \n ${JSON.stringify(myTamagotchi)}`;
-            myTamagotchi.hasOwnProperty('name') ? console.log(menuPart) : createNewTamagotchi(rl, myTamagotchi, showMenu)
-            menuBack(rl, () => showMenu(menuFunctions), menuPart)
+            setMainMenuIsClosed(myTamagotchi);
+            if (!characterExists(myTamagotchi)) createNewTamagotchi(rl, myTamagotchi, showMenu);
+            menuBack(rl, showMenu, characterExists(myTamagotchi) ? menuPart : '')
             break;
         case why_do_i_have_case_2:
-            setMainMenuIsOpened(myTamagotchi);
+            setMainMenuIsClosed(myTamagotchi);
             characterRemoveMoney(1, myTamagotchi);
             saveGame();
-            menuBack(rl, () => showMenu(menuFunctions),`Game saved! Money left: ${myTamagotchi.money} coins`)
+            menuBack(rl, showMenu,`Game saved! Money left: ${myTamagotchi.money} coins`)
             break;
-        case `cheatmoney`:
-            setMainMenuIsOpened(myTamagotchi);
+        case `money`:
+            setMainMenuIsClosed(myTamagotchi);
             characterAddMoney(5, myTamagotchi);
-            menuBack(rl, () => showMenu(menuFunctions), 'Money Added!')
+            menuBack(rl, showMenu, 'Money Added!')
             break;
         case `delchar`:
-            setMainMenuIsOpened(myTamagotchi);
+            setMainMenuIsClosed(myTamagotchi);
             characterDelete(myTamagotchi);
-            menuBack(rl, () => showMenu(menuFunctions), 'Character deleted!')
+            menuBack(rl, showMenu, 'Character deleted!')
+            break;
+        case `h+`:
+            setMainMenuIsClosed(myTamagotchi);
+            characterAddHp(1, myTamagotchi);
+            menuBack(rl, showMenu, 'HP Added!')
+            break;
+        case `f+`:
+            setMainMenuIsClosed(myTamagotchi);
+            characterAddFood(1, myTamagotchi);
+            menuBack(rl, showMenu, 'Food Added!')
+            break;
+        case `w+`:
+            setMainMenuIsClosed(myTamagotchi);
+            characterAddWater(1, myTamagotchi);
+            menuBack(rl, showMenu, 'Water Added!')
+            break;
+        case `h-`:
+            setMainMenuIsClosed(myTamagotchi);
+            characterDelHp(1, myTamagotchi);
+            menuBack(rl, showMenu, 'HP Deleted!')
+            break;
+        case `f-`:
+            setMainMenuIsClosed(myTamagotchi);
+            characterDelFood(1, myTamagotchi);
+            menuBack(rl, showMenu, 'Food Deleted!')
+            break;
+        case `w-`:
+            setMainMenuIsClosed(myTamagotchi);
+            characterDelWater(1, myTamagotchi);
+            menuBack(rl, showMenu, 'Water Deleted!')
             break;
         default: (() => {
-            setMainMenuIsOpened(myTamagotchi);
-            showMenu(menuFunctions)
+            setMainMenuIsClosed(myTamagotchi);
+            showMenu()
         })()
     }
 }
@@ -78,9 +118,9 @@ export const showMenu = () => {
     
     ${characterExists(myTamagotchi) ?
             `___________
-    | HP:${hp} ${characterIsDying(myTamagotchi) ? '<' : ''}
-    | FOOD:${food} ${foodIntervalComing(myTamagotchi) ? '<': ''} ${(characterHasLittleWater(myTamagotchi)) ? 'X2<<' : ''}
-    | WATER:${water} ${waterIntervalComing(myTamagotchi) ? '<' : ''}  
+    | HP:${hp} ${characterIsDying(myTamagotchi) && !isPointZero('hp', myTamagotchi)? '<' : ''}
+    | FOOD:${food} ${foodIntervalComing(myTamagotchi) && !isPointZero('food', myTamagotchi) ? '<': ''} ${(characterHasLittleWater(myTamagotchi)) ? 'X2<<' : ''}
+    | WATER:${water} ${waterIntervalComing(myTamagotchi) && !isPointZero('water', myTamagotchi)? '<' : ''}  
     | MONEY:${money}
     ___________`
             : ''}
@@ -88,7 +128,7 @@ export const showMenu = () => {
     ${(characterHasLittleWater(myTamagotchi)) ? 'WATER IS LESS THEN 10, DOUBLE STARVING' : ''}
     ${characterIsDying(myTamagotchi) ? `${name} IS DYING!` : ''}
 
-    cheats: cheatmoney (add 5 money); delchar (deletes character)
+    cheats: money; food; water; delchar;
       \n Type menu number... \n`;
     }
 
@@ -139,3 +179,8 @@ export const showMenu = () => {
 };
 
 export const startGame = () => showMenu();
+
+////     ()=()   ()-()   ()=()   ()-()
+//      ('Y')   (':')   (^;^)   ('&')
+//      q . p   d . b   C   C   c . c
+// jgs  ()_()   ()_()   ()_()   ()=()

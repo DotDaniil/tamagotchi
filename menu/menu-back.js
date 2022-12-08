@@ -10,7 +10,7 @@ export const menuBack = (rl, prevMenu, prevText) => {
                 prevMenu()
                 break;
             default: (() => {
-                menuBack(prevMenu, prevText)
+                menuBack(rl, prevMenu, prevText)
             })()
         }
     })
