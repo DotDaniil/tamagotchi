@@ -22,7 +22,7 @@ export const createStrength = (character) => character.modifyField('strength', 1
 export const createFood = (character) => character.modifyField('food', 20 + generateRandomInteger(0));
 export const createWater = (character) => character.modifyField('water', 12 + generateRandomInteger(0));
 export const createMoney = (character) => character.modifyField('money', 1 + generateRandomInteger(4));
-export const createItems = (character) => character.modifyField('items', {'item1': 'test', 'item2': 'test'});
+export const createItems = (character) => character.modifyField('inventory', [ {type: 'food', count: 5}, {type: 'water', count: 5}, {type: 'hp', count: 5} ]);
 
 export const createIsMainMenuOpened = (character) => character.modifyField('isMainMenuOpened', false);
 export const createDebugModeFlag = (character) => character.modifyField('debugMode', true);

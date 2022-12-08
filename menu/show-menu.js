@@ -26,7 +26,7 @@ import { saveGame } from "./save-load.js";
 import * as readline from 'node:readline';
 // import readline from "node:readline";
 import { stdin as input, stdout as output } from "node:process";
-import { inventory } from "./inventory.js";
+import { inventory } from "./inventory/inventory.js";
 
 
 
@@ -60,7 +60,7 @@ export const menuFunctions = (input, showMenu) => {
             break;
         case why_do_i_have_case_3:
             setMainMenuIsClosed(myTamagotchi);
-            inventory(rl, showMenu, 'Your inventory:\n \n 1. test \n \n Type `r` to return \n');
+            inventory(rl, showMenu);
             break;
         case `money`:
             setMainMenuIsClosed(myTamagotchi);
