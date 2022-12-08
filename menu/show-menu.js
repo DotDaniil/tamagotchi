@@ -26,6 +26,7 @@ import { saveGame } from "./save-load.js";
 import * as readline from 'node:readline';
 // import readline from "node:readline";
 import { stdin as input, stdout as output } from "node:process";
+import { inventory } from "./inventory.js";
 
 
 
@@ -42,6 +43,7 @@ const tamagotchiPic = `
 export const menuFunctions = (input, showMenu) => {
     const neverWillBeTyped = 'This Game Was Made By Daniil Tikhonov'
     const why_do_i_have_case_2 = `${!!myTamagotchi.money ? '2' : neverWillBeTyped}`;
+    const why_do_i_have_case_3 = `${characterExists(myTamagotchi) ? '3' : neverWillBeTyped}`;
 
     switch (input.trim()) {
         case '1':
@@ -55,6 +57,10 @@ export const menuFunctions = (input, showMenu) => {
             characterRemoveMoney(1, myTamagotchi);
             saveGame();
             menuBack(rl, showMenu,`Game saved! Money left: ${myTamagotchi.money} coins`)
+            break;
+        case why_do_i_have_case_3:
+            setMainMenuIsClosed(myTamagotchi);
+            inventory(rl, showMenu, 'Your inventory:\n \n 1. test \n \n Type `r` to return \n');
             break;
         case `money`:
             setMainMenuIsClosed(myTamagotchi);
@@ -115,6 +121,7 @@ export const showMenu = () => {
         return `Main Menu \n 
     1. ${characterExists(myTamagotchi) ? `My tamagotchi: ${name}` : 'Create tamagotchi'}
     ${!!money ? '2. Save Game (1 coin)': ''}
+    ${characterExists(myTamagotchi) ? '3. Inventory' : ''}
     
     ${characterExists(myTamagotchi) ?
             `___________

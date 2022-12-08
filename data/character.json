@@ -1,1 +1,1 @@
-{"state":"tamagotchi","dyingProcess":79,"updateStatsProcess":221,"isMainMenuOpened":false,"name":"asdf","hp":4,"intellect":95,"strength":2,"food":0,"water":8,"items":{"item1":"test","item2":"test"},"money":8,"gender":"f","starvingDelay":12,"thirstingDelay":8}
+{"state":"tamagotchi","dyingProcess":1,"updateStatsProcess":49,"isMainMenuOpened":false,"name":"test","hp":11,"intellect":94,"strength":3,"food":16,"water":9,"items":{"item1":"test","item2":"test"},"money":4,"gender":"f","starvingDelay":5,"thirstingDelay":2}
