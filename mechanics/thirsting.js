@@ -12,7 +12,7 @@ import {
 import {
     isDebugging,
     characterExists,
-    isIntervalZero,
+    isPointZero,
     characterIsDying,
     hasWater,
     doesPropertyExists,
@@ -32,37 +32,40 @@ export const startThirsting = (temporaryCharacter) => {
         if (characterExists(temporaryCharacter)) {
             (isDebugging(temporaryCharacter) && console.log('character_found!'));
 
-            if(!hasWater(temporaryCharacter)) {
-              //  (isDebugging(temporaryCharacter) && console.log('character_is_dying!!!'));
-
-               deleteCharStateInterval('thirstingDelay', temporaryCharacter);
-               copyCharacterToState(temporaryCharacter, myTamagotchi);
-
-                clearInterval(thirsting_interval);
-
-               // startDying(temporaryCharacter)
-            }
+            // if(!hasWater(temporaryCharacter)) {
+            //   //  (isDebugging(temporaryCharacter) && console.log('character_is_dying!!!'));
+            //
+            //    deleteCharStateInterval('thirstingDelay', temporaryCharacter);
+            //    copyCharacterToState(temporaryCharacter, myTamagotchi);
+            //
+            //    // clearInterval(thirsting_interval);
+            //
+            //    // startDying(temporaryCharacter)
+            // }
 
             if (doesPropertyExists('thirstingDelay', temporaryCharacter)) {
-
 
                 delOnePoint('thirstingDelay', temporaryCharacter)
                 if (isDebugging(temporaryCharacter)) console.log('thirstingDelay', temporaryCharacter.thirstingDelay);
                 copyCharacterToState(temporaryCharacter, myTamagotchi);
 
-                if (isIntervalZero('thirstingDelay', temporaryCharacter)) {
+            } else {
+                createRandomCharStateInterval('thirstingDelay', temporaryCharacter);
+                copyCharacterToState(temporaryCharacter, myTamagotchi);
+            }
 
+            if (isPointZero('thirstingDelay', temporaryCharacter)) {
+
+                if (!isPointZero('water', temporaryCharacter)) {
                     delOnePoint('water', temporaryCharacter);
                     copyCharacterToState(temporaryCharacter, myTamagotchi);
 
                     console.log(`thirsting... water is ${temporaryCharacter.water}`)
 
-                    deleteCharStateInterval('thirstingDelay', temporaryCharacter);
-                    copyCharacterToState(temporaryCharacter, myTamagotchi);
-
-                    createRandomCharStateInterval('thirstingDelay', temporaryCharacter);
-                    copyCharacterToState(temporaryCharacter, myTamagotchi);
                 }
+
+                deleteCharStateInterval('thirstingDelay', temporaryCharacter);
+                copyCharacterToState(temporaryCharacter, myTamagotchi);
             }
 
         }

@@ -1,7 +1,7 @@
 {
   "name": "tamagotchi",
   "type": "module",
-  "version": "0.0.8",
+  "version": "0.0.9",
   "description": "Tamagotchi Game",
   "main": "main.js",
   "scripts": {
