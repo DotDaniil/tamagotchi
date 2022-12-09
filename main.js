@@ -9,7 +9,7 @@ import { loadGame } from "./menu/save-load.js";
 
 loadGame();
 
-startStarving(myTamagotchi);
+startStarving (myTamagotchi);
 startThirsting(myTamagotchi);
 backToZeroPoint('dyingProcess', myTamagotchi);
 backToZeroPoint('updateStatsProcess', myTamagotchi);
@@ -27,3 +27,4 @@ startGame();
 // restore delay after load char ??
 // delete duplicates of starving and thirsting func when restore func (items) wll be added
 // fix menu bug ?? if menu is big it's good
+// change the menu for smiles as a shop item

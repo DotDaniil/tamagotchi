@@ -125,10 +125,10 @@ export const showMenu = () => {
     
     ${characterExists(myTamagotchi) ?
             `___________
-    | HP:${hp} ${characterIsDying(myTamagotchi) && !isPointZero('hp', myTamagotchi)? '<' : ''}
-    | FOOD:${food} ${foodIntervalComing(myTamagotchi) && !isPointZero('food', myTamagotchi) ? '<': ''} ${(characterHasLittleWater(myTamagotchi)) ? 'X2<<' : ''}
-    | WATER:${water} ${waterIntervalComing(myTamagotchi) && !isPointZero('water', myTamagotchi)? '<' : ''}  
-    | MONEY:${money}
+    | HEALTH:${hp} ${characterIsDying(myTamagotchi) && !isPointZero('hp', myTamagotchi)? '<' : ''}
+    | 🍏:${food} ${foodIntervalComing(myTamagotchi) && !isPointZero('food', myTamagotchi) ? '<': ''} ${(characterHasLittleWater(myTamagotchi)) ? 'X2<<' : ''}
+    | 💧:${water} ${waterIntervalComing(myTamagotchi) && !isPointZero('water', myTamagotchi)? '<' : ''}  
+    | 🪙:${money}
     ___________`
             : ''}
     
@@ -191,3 +191,5 @@ export const startGame = () => showMenu();
 //      ('Y')   (':')   (^;^)   ('&')
 //      q . p   d . b   C   C   c . c
 // jgs  ()_()   ()_()   ()_()   ()=()
+
+

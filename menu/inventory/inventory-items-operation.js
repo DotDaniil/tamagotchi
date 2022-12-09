@@ -1,19 +1,20 @@
 import { generateRandomInteger } from "../../utils.js";
-import { characterAddFood } from "../../state-operations.js";
-//'inventory', [ {type: 'food', count: 5}, {type: 'water', count: 5}, {type: 'hp', count: 5} ]
 export const inventoryItemsOperation = (action, itemType, character, numberToDel) => {
     const pointToAdd = 10 + generateRandomInteger(20)
 
     switch (action) {
         case 'activate':
-            let exists = false;
             character.inventory.forEach((item) => {
-                if (item.type === itemType) {
+                if (item.type === itemType && item.count > 0) {
                     item.count -= 1
-                    exists = true;
                 }
             })
-            if (exists) character.modifyField(itemType, character[`${itemType}`] + pointToAdd)
+            if (character[`${itemType}`] + pointToAdd < 100) {
+                character.modifyField(itemType, character[`${itemType}`] + pointToAdd)
+            } else {
+                character.modifyField(itemType, 100)
+            }
+
             break;
         case 'add':
             character.inventory.forEach((item) => {
