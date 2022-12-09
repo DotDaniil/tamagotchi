@@ -1,5 +1,5 @@
 import { generateRandomInteger } from "../../utils.js";
-export const inventoryItemsOperation = (action, itemType, character, numberToDel) => {
+export const inventoryItemsOperation = (action, itemType, character, numberToAdd) => {
     const pointToAdd = 10 + generateRandomInteger(20)
 
     switch (action) {
@@ -19,7 +19,7 @@ export const inventoryItemsOperation = (action, itemType, character, numberToDel
         case 'add':
             character.inventory.forEach((item) => {
                 if (item.type === itemType) {
-                    item.count += numberToDel
+                    item.count += numberToAdd
                 }
             })
             break;

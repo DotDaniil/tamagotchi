@@ -4,6 +4,17 @@ my tiny node.js petproject game
 
 still in progress...
 
+0.1.0 #changelog
+-
+
+-arena added
+-playable beta game!
+
+0.0.9 #changelog
+-
+
+-intermediate changes
+
 0.0.8 #changelog
 -
 

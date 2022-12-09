@@ -18,12 +18,13 @@ export const characterDelete = (character) =>  {
 
 const abilities = [{hit: {power: 1, lvl: 0}}]
 
-export const createHealth = (character) => character.modifyField('hp',10 + generateRandomInteger(0));
+export const createHealth = (character) => character.modifyField('hp',80 + generateRandomInteger(20));
 export const createIntellect = (character) => character.modifyField('intellect', 1 + generateRandomInteger(2));
 export const createStrength = (character) => character.modifyField('strength', 1 + generateRandomInteger(2));
-export const createFood = (character) => character.modifyField('food', 20 + generateRandomInteger(0));
-export const createWater = (character) => character.modifyField('water', 12 + generateRandomInteger(0));
-export const createMoney = (character) => character.modifyField('money', 1 + generateRandomInteger(4));
+export const createLvl = (character) => character.modifyField('lvl', 0);
+export const createFood = (character) => character.modifyField('food', 80 + generateRandomInteger(20));
+export const createWater = (character) => character.modifyField('water', 80 + generateRandomInteger(20));
+export const createMoney = (character) => character.modifyField('money', 5 + generateRandomInteger(0));
 export const createItems = (character) => character.modifyField('inventory', [ {type: 'food', count: 5}, {type: 'water', count: 5}, {type: 'hp', count: 5} ]);
 export const createAbilities = (character) => character.modifyField('abilities', abilities );
 
@@ -41,7 +42,8 @@ export const copyCharacterToState = (temporaryStateCharacter, stateCharacter) =>
     }
 }
 
-export const createRandomCharStateInterval = (key, character) => character.modifyField(key, 10 + generateRandomInteger(20));
+export const createRandomCharStateInterval = (key, character) => character.modifyField(key, 50 + generateRandomInteger(50));
+export const createRandomCharStateIntervalFaster = (key, character) => character.modifyField(key, 20 + generateRandomInteger(30));
 export const setMainMenuIsOpened = (character) => character.modifyField('isMainMenuOpened', character.isMainMenuOpened = true);
 export const setMainMenuIsClosed = (character) => character.modifyField('isMainMenuOpened', character.isMainMenuOpened = false);
 export const deleteCharStateInterval = (key, character) => character.delField(key);

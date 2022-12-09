@@ -35,9 +35,8 @@ export const inventory = (rl, prevMenu) => {
             case 'r':
                 prevMenu()
                 break;
-            default: (() => {
-                inventory(rl, prevMenu, inventoryText)
-            })()
+            default:
+                inventory(rl, prevMenu, inventoryText);
         }
     })
 }
