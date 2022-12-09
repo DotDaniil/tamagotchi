@@ -6,7 +6,7 @@ import {
     deleteCharStateInterval,
     createRandomCharStateInterval,
     copyCharacterToState,
-    delOnePoint
+    delOnePoint, createRandomCharStateIntervalFaster
 } from "../state-operations.js";
 
 import {
@@ -23,7 +23,7 @@ export const startThirsting = (temporaryCharacter) => {
 
     (isDebugging(temporaryCharacter) && console.log('start_thirsting...'));
 
-    createRandomCharStateInterval('thirstingDelay', temporaryCharacter);
+    createRandomCharStateIntervalFaster('thirstingDelay', temporaryCharacter);
     copyCharacterToState(temporaryCharacter, myTamagotchi);
 
     let thirsting_interval = setInterval(() => {
@@ -50,7 +50,7 @@ export const startThirsting = (temporaryCharacter) => {
                 copyCharacterToState(temporaryCharacter, myTamagotchi);
 
             } else {
-                createRandomCharStateInterval('thirstingDelay', temporaryCharacter);
+                createRandomCharStateIntervalFaster('thirstingDelay', temporaryCharacter);
                 copyCharacterToState(temporaryCharacter, myTamagotchi);
             }
 

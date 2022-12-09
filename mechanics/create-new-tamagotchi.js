@@ -1,5 +1,6 @@
 import {
     createFood,
+    createLvl,
     createHealth,
     createIntellect,
     createItems,
@@ -10,12 +11,13 @@ import {
 } from "../state-operations.js";
 
 import { isDebugging } from "../locators.js";
+import { generateRandomName } from "../utils.js";
 
 export const createNewTamagotchi = (readline, character, showMenu) => {
     (!isDebugging(character) && console.clear());
 
     const askName = (nextFunction) => readline.question('\n Enter tamagotchi name: \n', (name) => {
-        character.modifyField('name', name);
+        character.modifyField('name', name !== '' ? name + 'tchi' : generateRandomName());
         nextFunction()
     })
 
@@ -36,6 +38,7 @@ export const createNewTamagotchi = (readline, character, showMenu) => {
             createIntellect(character);
             createStrength(character);
             createFood(character);
+            createLvl(character);
             createWater(character);
             createItems(character);
             createMoney(character);

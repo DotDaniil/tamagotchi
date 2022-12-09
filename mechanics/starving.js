@@ -16,8 +16,9 @@ import {
     characterIsDying,
     doesPropertyExists,
     characterHasLittleWater,
-    foodIsNotOne,
+    foodIsNotOne, characterHasFullFood,
 } from "../locators.js";
+import {generateRandomInteger} from "../utils.js";
 
 export const startStarving = (temporaryCharacter) => {
     copyCharacterToState(temporaryCharacter, myTamagotchi);
@@ -32,6 +33,11 @@ export const startStarving = (temporaryCharacter) => {
 
         if (characterExists(temporaryCharacter)) {
             (isDebugging(temporaryCharacter) && console.log('character_found!'));
+
+            if (characterHasFullFood(temporaryCharacter) && temporaryCharacter.hp < 100) {
+                temporaryCharacter.modifyField('hp', temporaryCharacter.hp += Math.round(Math.random()));
+                copyCharacterToState(temporaryCharacter, myTamagotchi);
+            }
 
             if(characterIsDying(temporaryCharacter)) {
                 (isDebugging(temporaryCharacter) && console.log('character_is_dying!!!'));

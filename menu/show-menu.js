@@ -10,7 +10,7 @@ import {
 } from "../state-operations.js";
 import { myTamagotchi } from "../state.js";
 import {
-    characterExists,
+    characterExists, characterHasFullFood,
     characterHasLittleWater,
     characterIsDying,
     foodIntervalComing,
@@ -27,6 +27,7 @@ import * as readline from 'node:readline';
 // import readline from "node:readline";
 import { stdin as input, stdout as output } from "node:process";
 import { inventory } from "./inventory/inventory.js";
+import {arenaMenu} from "./arena/arena-menu.js";
 
 
 
@@ -44,6 +45,7 @@ export const menuFunctions = (input, showMenu) => {
     const neverWillBeTyped = 'This Game Was Made By Daniil Tikhonov'
     const why_do_i_have_case_2 = `${!!myTamagotchi.money ? '2' : neverWillBeTyped}`;
     const why_do_i_have_case_3 = `${characterExists(myTamagotchi) ? '3' : neverWillBeTyped}`;
+    const why_do_i_have_case_4 = `${characterExists(myTamagotchi) ? '4' : neverWillBeTyped}`;
 
     switch (input.trim()) {
         case '1':
@@ -61,6 +63,10 @@ export const menuFunctions = (input, showMenu) => {
         case why_do_i_have_case_3:
             setMainMenuIsClosed(myTamagotchi);
             inventory(rl, showMenu);
+            break;
+        case why_do_i_have_case_4:
+            setMainMenuIsClosed(myTamagotchi);
+            arenaMenu(rl, showMenu)
             break;
         case `money`:
             setMainMenuIsClosed(myTamagotchi);
@@ -116,26 +122,25 @@ export const showMenu = () => {
     setMainMenuIsOpened(myTamagotchi);
 
     const setMenuTextWithStats = (temporaryCharacter) => {
-        const { hp, food, water, name, money }  = temporaryCharacter;
+        const { lvl, hp, food, water, name, money }  = temporaryCharacter;
 
         return `Main Menu \n 
     1. ${characterExists(myTamagotchi) ? `My tamagotchi: ${name}` : 'Create tamagotchi'}
     ${!!money ? '2. Save Game (1 coin)': ''}
     ${characterExists(myTamagotchi) ? '3. Inventory' : ''}
-    
+    ${characterExists(myTamagotchi) ? '4. Arena' : ''}
     ${characterExists(myTamagotchi) ?
             `___________
-    | HEALTH:${hp} ${characterIsDying(myTamagotchi) && !isPointZero('hp', myTamagotchi)? '<' : ''}
+    | HEALTH${characterHasFullFood(myTamagotchi) ? '+' : ''}:${hp} ${characterIsDying(myTamagotchi) && !isPointZero('hp', myTamagotchi)? '<' : ''}
     | 🍏:${food} ${foodIntervalComing(myTamagotchi) && !isPointZero('food', myTamagotchi) ? '<': ''} ${(characterHasLittleWater(myTamagotchi)) ? 'X2<<' : ''}
     | 💧:${water} ${waterIntervalComing(myTamagotchi) && !isPointZero('water', myTamagotchi)? '<' : ''}  
     | 🪙:${money}
+    | 🏆:${lvl}
     ___________`
             : ''}
-    
     ${(characterHasLittleWater(myTamagotchi)) ? 'WATER IS LESS THEN 10, DOUBLE STARVING' : ''}
     ${characterIsDying(myTamagotchi) ? `${name} IS DYING!` : ''}
-
-    cheats: money; food; water; delchar;
+    
       \n Type menu number... \n`;
     }
 

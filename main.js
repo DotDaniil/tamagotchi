@@ -23,8 +23,7 @@ startGame();
 
 
 // use stages of game for avaluabily of buying things
-// killing process state handling
 // restore delay after load char ??
-// delete duplicates of starving and thirsting func when restore func (items) wll be added
-// fix menu bug ?? if menu is big it's good
 // change the menu for smiles as a shop item
+// tamagotchi can't die of starving or thirsting when fighting!
+// -1 points food, hp, money, when character
