@@ -36,11 +36,14 @@ const resolveHpAfterHit = (myCharacter, enemyCharacter) => {
 const givePrise = (myPrise, myPriseQuantity) => {
     if (myPrise !== 'money') {
 
-        if (myTamagotchi[`${myPrise}`] + myPriseQuantity > 10) {
-            inventoryItemsOperation('fairItem', myPrise, myTamagotchi, myPriseQuantity)
-        } else {
-            inventoryItemsOperation('add', myPrise, myTamagotchi, myPriseQuantity)
-        }
+        // fairPrise if > 10
+        myTamagotchi.inventory.forEach((item) => {
+            if (item.type === myPrise && item.count + myPriseQuantity > 10) {
+                item.count = 10
+            } else {
+                item.count += myPriseQuantity
+            }
+        })
 
     } else {
         myTamagotchi.money += myPriseQuantity;

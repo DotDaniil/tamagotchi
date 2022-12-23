@@ -23,12 +23,5 @@ export const inventoryItemsOperation = (action, itemType, character, numberToAdd
                 }
             })
             break;
-        case 'fairItem':
-            character.inventory.forEach((item) => {
-                if (item.type === itemType) {
-                    item.count = 10
-                }
-            })
-            break;
     }
 }
