@@ -1,1 +1,1 @@
-{}
+{"state":"tamagotchi","starvingDelay":59,"thirstingDelay":20,"dyingProcess":1,"updateStatsProcess":4,"isMainMenuOpened":false,"name":"fatchi","hp":81,"intellect":2,"strength":2,"food":91,"lvl":0,"water":100,"inventory":[{"type":"food","count":5},{"type":"water","count":5},{"type":"hp","count":5}],"money":5,"gender":"f"}

@@ -47,72 +47,73 @@ export const menuFunctions = (input, showMenu) => {
     const why_do_i_have_case_3 = `${characterExists(myTamagotchi) ? '3' : neverWillBeTyped}`;
     const why_do_i_have_case_4 = `${characterExists(myTamagotchi) ? '4' : neverWillBeTyped}`;
 
-    switch (input.trim()) {
-        case '1':
-            const menuPart = `Your tamagotchi: \n ${JSON.stringify(myTamagotchi)}`;
-            setMainMenuIsClosed(myTamagotchi);
-            if (!characterExists(myTamagotchi)) createNewTamagotchi(rl, myTamagotchi, showMenu);
-            menuBack(rl, showMenu, characterExists(myTamagotchi) ? menuPart : '')
-            break;
-        case why_do_i_have_case_2:
-            setMainMenuIsClosed(myTamagotchi);
-            characterRemoveMoney(1, myTamagotchi);
-            saveGame();
-            menuBack(rl, showMenu,`Game saved! Money left: ${myTamagotchi.money} coins`)
-            break;
-        case why_do_i_have_case_3:
-            setMainMenuIsClosed(myTamagotchi);
-            inventory(rl, showMenu);
-            break;
-        case why_do_i_have_case_4:
-            setMainMenuIsClosed(myTamagotchi);
-            arenaMenu(rl, showMenu)
-            break;
-        case `money`:
-            setMainMenuIsClosed(myTamagotchi);
-            characterAddMoney(5, myTamagotchi);
-            menuBack(rl, showMenu, 'Money Added!')
-            break;
-        case `delchar`:
-            setMainMenuIsClosed(myTamagotchi);
-            characterDelete(myTamagotchi);
-            menuBack(rl, showMenu, 'Character deleted!')
-            break;
-        case `h+`:
-            setMainMenuIsClosed(myTamagotchi);
-            characterAddHp(1, myTamagotchi);
-            menuBack(rl, showMenu, 'HP Added!')
-            break;
-        case `f+`:
-            setMainMenuIsClosed(myTamagotchi);
-            characterAddFood(1, myTamagotchi);
-            menuBack(rl, showMenu, 'Food Added!')
-            break;
-        case `w+`:
-            setMainMenuIsClosed(myTamagotchi);
-            characterAddWater(1, myTamagotchi);
-            menuBack(rl, showMenu, 'Water Added!')
-            break;
-        case `h-`:
-            setMainMenuIsClosed(myTamagotchi);
-            characterDelHp(1, myTamagotchi);
-            menuBack(rl, showMenu, 'HP Deleted!')
-            break;
-        case `f-`:
-            setMainMenuIsClosed(myTamagotchi);
-            characterDelFood(1, myTamagotchi);
-            menuBack(rl, showMenu, 'Food Deleted!')
-            break;
-        case `w-`:
-            setMainMenuIsClosed(myTamagotchi);
-            characterDelWater(1, myTamagotchi);
-            menuBack(rl, showMenu, 'Water Deleted!')
-            break;
-        default: (() => {
-            setMainMenuIsClosed(myTamagotchi);
-            showMenu()
-        })()
-    }
+        switch (input.trim()) {
+            case '1':
+                const menuPart = `Your tamagotchi: \n ${JSON.stringify(myTamagotchi)}`;
+                setMainMenuIsClosed(myTamagotchi);
+                if (!characterExists(myTamagotchi)) createNewTamagotchi(rl, myTamagotchi, showMenu);
+                menuBack(rl, showMenu, characterExists(myTamagotchi) ? menuPart : '')
+                break;
+            case why_do_i_have_case_2:
+                setMainMenuIsClosed(myTamagotchi);
+                characterRemoveMoney(1, myTamagotchi);
+                saveGame();
+                menuBack(rl, showMenu, `Game saved! Money left: ${myTamagotchi.money} coins`)
+                break;
+            case why_do_i_have_case_3:
+                setMainMenuIsClosed(myTamagotchi);
+                inventory(rl, showMenu);
+                break;
+            case why_do_i_have_case_4:
+                setMainMenuIsClosed(myTamagotchi);
+                arenaMenu(rl, showMenu)
+                break;
+            case `money`:
+                setMainMenuIsClosed(myTamagotchi);
+                characterAddMoney(5, myTamagotchi);
+                menuBack(rl, showMenu, 'Money Added!')
+                break;
+            case `delchar`:
+                setMainMenuIsClosed(myTamagotchi);
+                characterDelete(myTamagotchi);
+                menuBack(rl, showMenu, 'Character deleted!')
+                break;
+            case `h+`:
+                setMainMenuIsClosed(myTamagotchi);
+                characterAddHp(10, myTamagotchi);
+                menuBack(rl, showMenu, 'HP Added!')
+                break;
+            case `f+`:
+                setMainMenuIsClosed(myTamagotchi);
+                characterAddFood(10, myTamagotchi);
+                menuBack(rl, showMenu, 'Food Added!')
+                break;
+            case `w+`:
+                setMainMenuIsClosed(myTamagotchi);
+                characterAddWater(10, myTamagotchi);
+                menuBack(rl, showMenu, `Water Added!`)
+                break;
+            case `h-`:
+                setMainMenuIsClosed(myTamagotchi);
+                characterDelHp(10, myTamagotchi);
+                menuBack(rl, showMenu, 'HP Deleted!')
+                break;
+            case `f-`:
+                setMainMenuIsClosed(myTamagotchi);
+                characterDelFood(10, myTamagotchi);
+                menuBack(rl, showMenu, 'Food Deleted!')
+                break;
+            case `w-`:
+                setMainMenuIsClosed(myTamagotchi);
+                characterDelWater(10, myTamagotchi);
+                menuBack(rl, showMenu, 'Water Deleted!')
+                break;
+            default:
+                (() => {
+                    setMainMenuIsClosed(myTamagotchi);
+                    showMenu()
+                })()
+        }
 }
 
 
