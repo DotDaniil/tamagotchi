@@ -41,6 +41,7 @@ export const startDying = (temporaryCharacter) => {
                 if (noHp(temporaryCharacter)) {
                     characterDelete(myTamagotchi)
                     clearInterval(dying_interval)
+                    console.clear()
                     console.log('\n Tamagotchi is dead T_T \n || "*" ... RIP ... "*" || \n');
                     process.exit()
                 }
