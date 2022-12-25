@@ -147,9 +147,6 @@ export const showMenu = () => {
 
     let menuText = setMenuTextWithStats(myTamagotchi);
 
-
-
-
     //update stats
 
     addOnePoint('updateStatsProcess', myTamagotchi);
@@ -181,11 +178,7 @@ export const showMenu = () => {
         }, 1000)
     }
 
-    //
-
-
-
-    (!isDebugging(myTamagotchi) && console.clear());
+    // (!isDebugging(myTamagotchi) && console.clear());
 
     rl.question(menuText, (input) => menuFunctions(input, showMenu));
 

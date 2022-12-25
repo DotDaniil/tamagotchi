@@ -26,6 +26,7 @@ export const createFood = (character) => character.modifyField('food', 80 + gene
 export const createWater = (character) => character.modifyField('water', 80 + generateRandomInteger(20));
 export const createMoney = (character) => character.modifyField('money', 5 + generateRandomInteger(0));
 export const createItems = (character) => character.modifyField('inventory', [ {type: 'food', count: 5}, {type: 'water', count: 5}, {type: 'hp', count: 5} ]);
+export const createArenaItems = (character) => character.modifyField('arenaItems', ['MegaCrit']);
 export const createAbilities = (character) => character.modifyField('abilities', abilities );
 
 export const createIsMainMenuOpened = (character) => character.modifyField('isMainMenuOpened', false);
