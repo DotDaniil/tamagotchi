@@ -7,7 +7,7 @@ import {
     createMoney,
     createStrength,
     createWater,
-    createIsMainMenuOpened,
+    createIsMainMenuOpened, createArenaItems,
 } from "../state-operations.js";
 
 import { isDebugging } from "../locators.js";
@@ -41,6 +41,7 @@ export const createNewTamagotchi = (readline, character, showMenu) => {
             createLvl(character);
             createWater(character);
             createItems(character);
+            createArenaItems(character);
             createMoney(character);
             createIsMainMenuOpened(character);
 
