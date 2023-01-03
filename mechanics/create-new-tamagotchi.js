@@ -9,48 +9,41 @@ import {
     createWater,
     createIsMainMenuOpened, createArenaItems,
 } from "../state-operations.js";
-
-import { isDebugging } from "../locators.js";
 import { generateRandomName } from "../utils.js";
-
-export const createNewTamagotchi = (readline, character, showMenu) => {
-    (!isDebugging(character) && console.clear());
-
-    const askName = (nextFunction) => readline.question('\n Enter tamagotchi name: \n', (name) => {
-        character.modifyField('name', name !== '' ? name + 'tchi' : generateRandomName());
-        nextFunction()
-    })
-
-    const askGender = (nextFunction, failed) => readline.question(failed ? ('\n Please, type m or f: \n ') : ('\n Is tomagotchi male (m) or female (f)? : \n'), (gender) => {
-        if (gender === 'f' || gender === 'm') {
-            character.modifyField('gender', gender);
-        } else {
-            askGender(() => nextFunction(() => nextFunction),true);
-        }
-        nextFunction()
-    })
+import { menuFunctions } from "../menu/show-menu.js";
+import { rl } from "../main.js";
 
 
-    const initiateCreation = () => {
 
-        const createOtherAndReturnToMenu = () => {
-            createHealth(character);
-            createIntellect(character);
-            createStrength(character);
-            createFood(character);
-            createLvl(character);
-            createWater(character);
-            createItems(character);
-            createArenaItems(character);
-            createMoney(character);
-            createIsMainMenuOpened(character);
+export const createNewTamagotchi = (character) => {
 
-            showMenu();
-        }
+        rl.question('\n Enter tamagotchi name: \n', (name) => {
+            character.modifyField('name', name !== '' ? name + 'tchi' : generateRandomName());
+            if (!!character.name) {
+                process.stdin.on('data', stdinListener);
+                console.clear()
+                console.log('\n Is tomagotchi male (m) or female (f)? : \n');
+            }
+        })
 
-        askName(() => askGender(() => createOtherAndReturnToMenu()))
+    const stdinListener = (data) => {
+            if (data.toString() === 'f' || data.toString() === 'm') {
+                character.modifyField('gender', data.toString());
+                process.stdin.off('data', stdinListener);
+                createHealth(character);
+                createIntellect(character);
+                createStrength(character);
+                createFood(character);
+                createLvl(character);
+                createWater(character);
+                createItems(character);
+                createArenaItems(character);
+                createMoney(character);
+                createIsMainMenuOpened(character);
+                menuFunctions()
+            } else {
+                console.clear()
+                console.log('\n Please, type m or f: \n ');
+            }
     }
-
-    initiateCreation();
-
 }
