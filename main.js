@@ -6,6 +6,10 @@ import { startThirsting } from "./mechanics/thirsting.js";
 import { startDying } from "./mechanics/dying.js";
 import { startGame } from "./menu/show-menu.js";
 import { loadGame } from "./menu/save-load.js";
+import readline from "readline";
+import { stdin as input, stdout as output } from "node:process";
+export const rl = readline.createInterface({ input, output });
+
 
 loadGame();
 

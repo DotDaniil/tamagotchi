@@ -3,8 +3,9 @@ import { enemy } from '../../../state.js';
 import { backToZeroPoint, createAbilities, createHealth } from "../../../state-operations.js";
 import { generateRandomInteger, generateRandomName } from "../../../utils.js";
 import { menuBack } from "../../menu-back.js";
-import { showMenu } from "../../show-menu.js";
+// import { showMenu } from "../../show-menu.js";
 import { hasItem, numberOf } from "../utils.js";
+import { menuFunctions } from "../../show-menu.js";
 
 
 export const createEnemy = (myCharacter, enemyCharacter) => {
@@ -102,7 +103,7 @@ const resolveFight = (character, enemy, rl, prevMenu, stdinListener) => {
         imbalanceWinCondition(myTamagotchi);
         givePrise(myPrise, myPriseQuantity);
         winFight(myTamagotchi, enemy, stdinListener);
-        menuBack(rl, prevMenu, `YOU WON, CONGRATULATIONS!
+        menuBack(prevMenu, `YOU WON, CONGRATULATIONS!
                 ${myTamagotchi[`${myPrise}`] + myPriseQuantity > 10 ? `\nYour prise is ${myPrise} ${myPriseQuantity}`: '' }
                 `);
     } else {
@@ -111,7 +112,7 @@ const resolveFight = (character, enemy, rl, prevMenu, stdinListener) => {
 
     if (myTamagotchi.hp <= 0) {
         looseFight(myTamagotchi, enemy, stdinListener)
-        menuBack(rl, prevMenu, `YOU LOST THE FIGHT!`)
+        menuBack(prevMenu, `YOU LOST THE FIGHT!`)
     }
 
 }
@@ -189,14 +190,13 @@ export const fightMenu = (rl, prevMenu) => {
                 myTamagotchi.delField('prevHp');
                 enemy.delField('prevHp');
                 process.stdin.off('data', stdinListener);
-                showMenu()
-
+                menuFunctions();
                 break;
             default:
                 console.clear()
                 showFightScreen()
         }
     }
-        process.stdin.on('data', stdinListener);
+       process.stdin.on('data', stdinListener);
 }
 

@@ -1,5 +1,6 @@
 import { myTamagotchi } from "../../state.js";
 import { numberOf } from "./utils.js";
+import {menuFunctions} from "../show-menu.js";
 
 const addArenaItem = (itemName) => {
     const { arenaItems } = myTamagotchi;
@@ -7,6 +8,7 @@ const addArenaItem = (itemName) => {
 };
 
 const showArenaShopText = () => {
+    console.clear()
 console.log(`Arena Shop:\n \n Press any number to buy...\n \n 
     
 Money ====> ${myTamagotchi.money} <====
@@ -19,8 +21,7 @@ Type 'r' to return \n
 `);
 }
 
-export const arenaShop = (prevMenu) => {
-    console.clear()
+export const arenaShop = () => {
     showArenaShopText()
 
     const stdinListener = (data) => {
@@ -28,7 +29,6 @@ export const arenaShop = (prevMenu) => {
         switch (data.toString()) {
             case '1':
                 console.clear()
-
                 if (myTamagotchi.money - 5 >= 0) {
                     myTamagotchi.modifyField('money', myTamagotchi.money - 5)
                     addArenaItem('MegaCrit');
@@ -41,14 +41,12 @@ export const arenaShop = (prevMenu) => {
                 break;
             case 'r':
                 process.stdin.off('data', stdinListener);
-                prevMenu();
-
+                menuFunctions()
                 break;
             default:
-                console.clear();
                 showArenaShopText();
         }
     }
 
-    process.stdin.on('data', stdinListener);
+   process.stdin.on('data', stdinListener);
 }

@@ -14,4 +14,5 @@ class State {
 
 export const myTamagotchi = new State('tamagotchi');
 export const enemy = new State('enemy')
+export const cheatMenuState = new State('cheatMenuState');
 //createDebugModeFlag(myTamagotchi);

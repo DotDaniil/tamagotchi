@@ -1,16 +1,22 @@
-import {isDebugging} from "../locators.js";
-import {myTamagotchi} from "../state.js";
-
-export const menuBack = (rl, prevMenu, prevText) => {
+const menuBackText = (prevText) => {
     console.clear()
     console.log(prevText)
-    rl.question('\n Type `r` to return: \n', (menu) => {
-        switch (menu.trim()) {
+    console.log('\n Type `r` to return: \n');
+}
+
+
+export const menuBack = (prevMenu, prevText) => {
+
+    menuBackText(prevText);
+    const stdinListener = (data) => {
+        switch (data.toString()) {
             case 'r':
-                prevMenu()
+                process.stdin.off('data', stdinListener);
+                prevMenu();
                 break;
             default:
-                menuBack(rl, prevMenu, prevText)
+                menuBackText(prevText);
         }
-    })
+    }
+    process.stdin.on('data', stdinListener);
 }
