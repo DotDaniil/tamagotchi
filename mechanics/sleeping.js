@@ -26,6 +26,10 @@ export const startSleepingProcess = (temporaryCharacter) => {
 
             if (characterExists(temporaryCharacter)) {
                 if (characterIsSleeping(temporaryCharacter)) {
+                    if (temporaryCharacter.food < 2) {
+                        temporaryCharacter.modifyField('food', 1)
+                        copyCharacterToState(temporaryCharacter, myTamagotchi);
+                    }
                     if (temporaryCharacter.hp < 100) {
                         temporaryCharacter.modifyField('hp', temporaryCharacter.hp += Math.round(Math.random()));
                         copyCharacterToState(temporaryCharacter, myTamagotchi);
