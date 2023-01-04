@@ -33,11 +33,15 @@ export const startSleepingProcess = (temporaryCharacter) => {
                         console.log(sleepingImg);
                         console.log('\n Type `r` to return: \n');
                         console.log(`${myTamagotchi.name} is sleeping and restoring. Hp: ${myTamagotchi.hp}.💤 .💤 .💤 `);
+                        console.log(`🍏: ${myTamagotchi.food}`);
+                        console.log(`💧: ${myTamagotchi.water}`);
                     } else {
                         console.clear();
                         console.log(sleepingImg);
                         console.log('\n Type `r` to return: \n');
                         console.log(`${myTamagotchi.name} has fully restored! Hp:${myTamagotchi.hp}`);
+                        console.log(`🍏: ${myTamagotchi.food}`);
+                        console.log(`💧: ${myTamagotchi.water}`);
                     }
                 }
             }

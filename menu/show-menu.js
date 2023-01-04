@@ -132,10 +132,6 @@ export const menuFunctions = () => {
     }
 }
 
-
-
-
-
 export const statsUpdate = () => {
     console.clear();
     showMenuText();
