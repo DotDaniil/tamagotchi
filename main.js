@@ -8,6 +8,8 @@ import { startGame } from "./menu/show-menu.js";
 import { loadGame } from "./menu/save-load.js";
 import readline from "readline";
 import { stdin as input, stdout as output } from "node:process";
+import {startLvlGain} from "./mechanics/lvl-gaing.js";
+import {startSleepingProcess} from "./mechanics/sleeping.js";
 export const rl = readline.createInterface({ input, output });
 
 
@@ -15,10 +17,11 @@ loadGame();
 
 startStarving (myTamagotchi);
 startThirsting(myTamagotchi);
+startSleepingProcess(myTamagotchi);
 backToZeroPoint('dyingProcess', myTamagotchi);
 backToZeroPoint('updateStatsProcess', myTamagotchi);
 startDying(myTamagotchi);
-
+startLvlGain(myTamagotchi);
 startGame();
 
 

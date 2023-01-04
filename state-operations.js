@@ -21,7 +21,9 @@ const abilities = [{hit: {power: 1, lvl: 0}}]
 export const createHealth = (character) => character.modifyField('hp',80 + generateRandomInteger(20));
 export const createIntellect = (character) => character.modifyField('intellect', 1 + generateRandomInteger(2));
 export const createStrength = (character) => character.modifyField('strength', 1 + generateRandomInteger(2));
+export const createWins = (character) => character.modifyField('wins', 0);
 export const createLvl = (character) => character.modifyField('lvl', 0);
+export const createExp = (character) => character.modifyField('exp', 0);
 export const createFood = (character) => character.modifyField('food', 80 + generateRandomInteger(20));
 export const createWater = (character) => character.modifyField('water', 80 + generateRandomInteger(20));
 export const createMoney = (character) => character.modifyField('money', 5 + generateRandomInteger(0));

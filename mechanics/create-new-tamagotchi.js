@@ -1,13 +1,12 @@
 import {
     createFood,
-    createLvl,
     createHealth,
     createIntellect,
     createItems,
     createMoney,
     createStrength,
     createWater,
-    createIsMainMenuOpened, createArenaItems,
+    createIsMainMenuOpened, createArenaItems, createWins, createLvl, createExp,
 } from "../state-operations.js";
 import { generateRandomName } from "../utils.js";
 import { menuFunctions } from "../menu/show-menu.js";
@@ -34,7 +33,8 @@ export const createNewTamagotchi = (character) => {
                 createIntellect(character);
                 createStrength(character);
                 createFood(character);
-                createLvl(character);
+                createWins(character);
+                createExp(character);
                 createWater(character);
                 createItems(character);
                 createArenaItems(character);

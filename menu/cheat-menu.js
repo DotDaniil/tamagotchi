@@ -60,7 +60,7 @@ const additionalMenu = (charLabel) => {
                 cheatMenuState.modifyField('on', false)
                 cheatMenu(menuFunctions)
                 break;
-            case '+':
+            case '=':
                 console.clear();
                 additionalText(charLabel);
                 myTamagotchi[`${charLabel}`] = myTamagotchi[`${charLabel}`] + 1
