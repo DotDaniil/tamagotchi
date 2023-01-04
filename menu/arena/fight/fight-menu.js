@@ -33,7 +33,7 @@ const resolveHpAfterHit = (myCharacter, enemyCharacter, buff) => {
     }
 }
 
-const givePrise = (myPrise, myPriseQuantity) => {
+const givePrise = (myPrise, myPriseQuantity, myExp) => {
     if (myPrise !== 'money') {
 
         // fairPrise if > 10
@@ -51,9 +51,11 @@ const givePrise = (myPrise, myPriseQuantity) => {
     } else {
         myTamagotchi.money += myPriseQuantity;
     }
+    myTamagotchi.modifyField('exp', myTamagotchi.exp + myExp)
 }
 
 const looseFight = (character, enemy, stdinListener) => {
+    character.modifyField('exp', character.exp + 10 + generateRandomInteger(10))
     character.modifyField('hp', 1);
     character.delField('prevHp');
     enemy.delField('prevHp');
@@ -63,7 +65,7 @@ const looseFight = (character, enemy, stdinListener) => {
 }
 
 const winFight = (character, enemy, stdinListener) => {
-    character.modifyField('lvl', myTamagotchi.lvl += 1);
+    character.modifyField('wins', myTamagotchi.wins += 1);
     character.delField('prevHp');
     enemy.delField('prevHp');
 
@@ -94,14 +96,15 @@ const delArenaItem = (itemName) => {
     myTamagotchi.modifyField('arenaItems', newItems);
 };
 
-const resolveFight = (character, enemy, rl, prevMenu, stdinListener) => {
+const resolveFight = (character, enemy, prevMenu, stdinListener) => {
     const prises = ['hp', 'food', 'water', 'money'];
     const myPrise = prises[Math.floor(Math.random() * prises.length)];
+    const myExp = 80 + generateRandomInteger(20);
     const myPriseQuantity = 1 + generateRandomInteger(4)
 
     if (enemy.hp <= 0) {
         imbalanceWinCondition(myTamagotchi);
-        givePrise(myPrise, myPriseQuantity);
+        givePrise(myPrise, myPriseQuantity, myExp);
         winFight(myTamagotchi, enemy, stdinListener);
         menuBack(prevMenu, `YOU WON, CONGRATULATIONS!
                 ${myTamagotchi[`${myPrise}`] + myPriseQuantity > 10 ? `\nYour prise is ${myPrise} ${myPriseQuantity}`: '' }
@@ -154,7 +157,7 @@ Type 'r' to run away! \n \n
 
 
 
-export const fightMenu = (rl, prevMenu) => {
+export const fightMenu = (prevMenu) => {
     console.clear();
     backToZeroPoint('prevHp', myTamagotchi);
     backToZeroPoint('prevHp', enemy);
@@ -171,7 +174,7 @@ export const fightMenu = (rl, prevMenu) => {
 
                 resolveHpAfterHit(myTamagotchi, enemy, 0);
 
-                resolveFight(myTamagotchi, enemy, rl, prevMenu, stdinListener)
+                resolveFight(myTamagotchi, enemy, prevMenu, stdinListener)
 
                 break;
             case returnLetterIfItemExist('MegaCrit', 'm'):
@@ -183,7 +186,7 @@ export const fightMenu = (rl, prevMenu) => {
 
                 resolveHpAfterHit(myTamagotchi, enemy, 30);
 
-                resolveFight(myTamagotchi, enemy, rl, prevMenu, stdinListener)
+                resolveFight(myTamagotchi, enemy, prevMenu, stdinListener)
 
                 break;
             case 'r' :

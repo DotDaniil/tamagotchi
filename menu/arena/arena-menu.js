@@ -10,8 +10,8 @@ import {menuFunctions} from "../show-menu.js";
 const arenaText = () => {
     console.clear()
     console.log(`Welcome to ARENA:\n \n
-    1. Start to fight!
-    2. Arena Shop \n\n 
+1. Start to fight!
+2. Arena Shop \n\n 
 -------------------------
 MegaCrits: ${numberOf('MegaCrit')}
 -------------------------
@@ -26,7 +26,7 @@ export const arenaMenu = () => {
                    process.stdin.off('data', stdinListener);
                     if (myTamagotchi.hp > 1) {
                         createEnemy(myTamagotchi, enemy);
-                        fightMenu(rl, arenaMenu)
+                        fightMenu(arenaMenu)
                     } else {
                         menuBack(menuFunctions, `Enter is FORBIDDEN! Your hp is 1. YOU WILL DIE, IF YOU ENTER!!!`)
                     }

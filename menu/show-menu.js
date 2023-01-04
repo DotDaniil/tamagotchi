@@ -25,6 +25,8 @@ import { saveGame } from "./save-load.js";
 import { inventory } from "./inventory/inventory.js";
 import { arenaMenu } from "./arena/arena-menu.js";
 import {cheatMenu} from "./cheat-menu.js";
+import {processLvlBar} from "../mechanics/lvl-gaing.js";
+import {sleepingImg} from "../mechanics/sleeping.js";
 
 const tamagotchiPic = `
     ()=() 
@@ -34,20 +36,23 @@ const tamagotchiPic = `
 `;
 
 const showMenuText = () => {
-    const { lvl, hp, food, water, name, money }  = myTamagotchi;
+    const { lvlProcents, lvl, wins, hp, food, water, name, money }  = myTamagotchi;
 
     console.log(`Main Menu \n 
 1. ${characterExists(myTamagotchi) ? `My tamagotchi: ${name}` : 'Create tamagotchi'}
 ${!!money ? '2. Save Game (1 coin)': ''}
 ${characterExists(myTamagotchi) ? '3. Inventory' : ''}
 ${characterExists(myTamagotchi) ? '4. Arena' : ''}
+${characterExists(myTamagotchi) ? '5. Go to sleep💤 ' : ''}
 ${characterExists(myTamagotchi) ?
         `___________
 | HEALTH${characterHasFullFood(myTamagotchi) ? '+' : ''}:${hp} ${characterIsDying(myTamagotchi) && !isPointZero('hp', myTamagotchi)? '<' : ''}
 | 🍏:${food} ${foodIntervalComing(myTamagotchi) && !isPointZero('food', myTamagotchi) ? '<': ''} ${(characterHasLittleWater(myTamagotchi)) ? 'X2<<' : ''}
 | 💧:${water} ${waterIntervalComing(myTamagotchi) && !isPointZero('water', myTamagotchi)? '<' : ''}  
 | 🪙:${money}
-| 🏆:${lvl}
+| 🏆:${wins}
+|
+| LEVEL: ${myTamagotchi.lvlProcents ? lvl + '|'+ processLvlBar(myTamagotchi) + '|' + (lvl + 1): 'Loading...'}
 ___________`
         : ''}
 ${(characterHasLittleWater(myTamagotchi)) ? 'WATER IS LESS THEN 10, DOUBLE STARVING' : ''}
@@ -58,12 +63,15 @@ ${characterIsDying(myTamagotchi) ? `${name} IS DYING!` : ''}
 }
 
 
+
+
 export const menuFunctions = () => {
     console.clear()
     const neverWillBeTyped = 'This Game Was Made By Daniil Tikhonov'
     const why_do_i_have_case_2 = `${!!myTamagotchi.money ? '2' : neverWillBeTyped}`;
     const why_do_i_have_case_3 = `${characterExists(myTamagotchi) ? '3' : neverWillBeTyped}`;
     const why_do_i_have_case_4 = `${characterExists(myTamagotchi) ? '4' : neverWillBeTyped}`;
+    const why_do_i_have_case_5 = `${characterExists(myTamagotchi) ? '5' : neverWillBeTyped}`;
 
     setMainMenuIsOpened(myTamagotchi);
 
@@ -74,6 +82,7 @@ export const menuFunctions = () => {
     } else {
 
         statsUpdate();
+        myTamagotchi.modifyField('isSleeping', false)
 
         const stdinListener = (data) => {
 
@@ -102,6 +111,12 @@ export const menuFunctions = () => {
                     process.stdin.off('data', stdinListener);
                     setMainMenuIsClosed(myTamagotchi);
                     arenaMenu(menuFunctions)
+                    break;
+                case why_do_i_have_case_5:
+                    process.stdin.off('data', stdinListener);
+                    setMainMenuIsClosed(myTamagotchi);
+                    myTamagotchi.modifyField('isSleeping', true)
+                    menuBack(menuFunctions, sleepingImg);
                     break;
                 case `c`:
                     process.stdin.off('data', stdinListener);
