@@ -25,6 +25,7 @@ export const createWins = (character) => character.modifyField('wins', 0);
 export const createLvl = (character) => character.modifyField('lvl', 0);
 export const createExp = (character) => character.modifyField('exp', 0);
 export const createFood = (character) => character.modifyField('food', 80 + generateRandomInteger(20));
+export const createAttackBonus = (character) => character.modifyField('attackBonus', 0);
 export const createWater = (character) => character.modifyField('water', 80 + generateRandomInteger(20));
 export const createMoney = (character) => character.modifyField('money', 5 + generateRandomInteger(0));
 export const createItems = (character) => character.modifyField('inventory', [ {type: 'food', count: 5}, {type: 'water', count: 5}, {type: 'hp', count: 5} ]);

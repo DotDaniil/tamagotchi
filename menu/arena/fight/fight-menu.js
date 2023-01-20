@@ -76,7 +76,7 @@ const delArenaItem = (itemName) => {
 };
 
 const resolveFight = (character, enemy, prevMenu, stdinListener) => {
-    const prises = ['hp', 'food', 'water', 'money'];
+    const prises = ['hp', 'food', 'water', 'money', 'MegaCrit'];
     const myPrise = prises[Math.floor(Math.random() * (prises.length - 1))];
     const myExp = 80 + generateRandomInteger(20);
     const myPriseQuantity = 1 + generateRandomInteger(4)
@@ -85,8 +85,7 @@ const resolveFight = (character, enemy, prevMenu, stdinListener) => {
         imbalanceWinCondition(myTamagotchi);
         givePrise(myPrise, myPriseQuantity, myExp);
         winFight(myTamagotchi, enemy, stdinListener);
-        menuBack(prevMenu, `YOU WON, CONGRATULATIONS!
-         Your prise is ${myPrise} ${myPriseQuantity}`);
+        menuBack(prevMenu, `YOU WON, CONGRATULATIONS! \nYour prise is ${myPrise} ${myPriseQuantity}`);
     } else {
         showFightScreen()
     }
@@ -150,7 +149,7 @@ export const fightMenu = (prevMenu) => {
 
                 createPrevHpField(myTamagotchi, enemy);
 
-                resolveHpAfterHit(myTamagotchi, enemy, 0);
+                resolveHpAfterHit(myTamagotchi, enemy, myTamagotchi.attackBonus);
 
                 resolveFight(myTamagotchi, enemy, prevMenu, stdinListener)
 
@@ -162,7 +161,7 @@ export const fightMenu = (prevMenu) => {
 
                 delArenaItem('MegaCrit');
 
-                resolveHpAfterHit(myTamagotchi, enemy, 30);
+                resolveHpAfterHit(myTamagotchi, enemy, 30 + myTamagotchi.attackBonus);
 
                 resolveFight(myTamagotchi, enemy, prevMenu, stdinListener)
 
