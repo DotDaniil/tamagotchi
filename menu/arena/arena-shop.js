@@ -2,10 +2,7 @@ import { myTamagotchi } from "../../state.js";
 import { numberOf } from "./utils.js";
 import {menuFunctions} from "../show-menu.js";
 
-const addArenaItem = (itemName) => {
-    const { arenaItems } = myTamagotchi;
-    arenaItems.push(itemName);
-};
+
 
 const showArenaShopText = () => {
     console.clear()

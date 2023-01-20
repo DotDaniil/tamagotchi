@@ -4,7 +4,7 @@ import { backToZeroPoint, createAbilities, createHealth } from "../../../state-o
 import { generateRandomInteger, generateRandomName } from "../../../utils.js";
 import { menuBack } from "../../menu-back.js";
 // import { showMenu } from "../../show-menu.js";
-import { hasItem, numberOf } from "../utils.js";
+import {givePrise, hasItem, numberOf} from "../utils.js";
 import { menuFunctions } from "../../show-menu.js";
 
 
@@ -31,27 +31,6 @@ const resolveHpAfterHit = (myCharacter, enemyCharacter, buff) => {
     if (enemy.hp > 0) {
         myCharacter.modifyField('hp', myHpAfterHit(myCharacter));
     }
-}
-
-const givePrise = (myPrise, myPriseQuantity, myExp) => {
-    if (myPrise !== 'money') {
-
-        // fairPrise if > 10
-        myTamagotchi.inventory.forEach((item) => {
-
-            if (item.type === myPrise) {
-                if (item.count + myPriseQuantity > 10) {
-                    item.count = 10
-                } else {
-                    item.count += myPriseQuantity
-                }
-            }
-        })
-
-    } else {
-        myTamagotchi.money += myPriseQuantity;
-    }
-    myTamagotchi.modifyField('exp', myTamagotchi.exp + myExp)
 }
 
 const looseFight = (character, enemy, stdinListener) => {
@@ -98,7 +77,7 @@ const delArenaItem = (itemName) => {
 
 const resolveFight = (character, enemy, prevMenu, stdinListener) => {
     const prises = ['hp', 'food', 'water', 'money'];
-    const myPrise = prises[Math.floor(Math.random() * prises.length)];
+    const myPrise = prises[Math.floor(Math.random() * (prises.length - 1))];
     const myExp = 80 + generateRandomInteger(20);
     const myPriseQuantity = 1 + generateRandomInteger(4)
 
@@ -107,8 +86,7 @@ const resolveFight = (character, enemy, prevMenu, stdinListener) => {
         givePrise(myPrise, myPriseQuantity, myExp);
         winFight(myTamagotchi, enemy, stdinListener);
         menuBack(prevMenu, `YOU WON, CONGRATULATIONS!
-                ${myTamagotchi[`${myPrise}`] + myPriseQuantity > 10 ? `\nYour prise is ${myPrise} ${myPriseQuantity}`: '' }
-                `);
+         Your prise is ${myPrise} ${myPriseQuantity}`);
     } else {
         showFightScreen()
     }

@@ -4,6 +4,12 @@ export const generateRandomInteger = (max) => {
     return Math.floor(Math.random() * max) + 1;
 }
 
+export function randomInteger(min, max) {
+    // случайное число от min до (max+1)
+    let rand = min + Math.random() * (max - min);
+    return Math.floor(rand);
+}
+
 export const generateRandomName = () => namesList[generateRandomInteger(namesList.length - 1)];
 
 

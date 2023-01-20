@@ -51,5 +51,5 @@ export const startSleepingProcess = (temporaryCharacter) => {
             }
 
 
-        },10000)
+        },5000)
 }
