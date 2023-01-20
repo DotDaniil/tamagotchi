@@ -3,8 +3,7 @@ import { enemy } from '../../../state.js';
 import { backToZeroPoint, createAbilities, createHealth } from "../../../state-operations.js";
 import { generateRandomInteger, generateRandomName } from "../../../utils.js";
 import { menuBack } from "../../menu-back.js";
-// import { showMenu } from "../../show-menu.js";
-import {givePrise, hasItem, numberOf} from "../utils.js";
+import { givePrise, hasItem, numberOf } from "../utils.js";
 import { menuFunctions } from "../../show-menu.js";
 
 

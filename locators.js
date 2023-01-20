@@ -9,6 +9,7 @@ export const noHp = (character) => character.hasOwnProperty('hp') && character.h
 export const foodIsNotOne = (character) => character.hasOwnProperty('food') && character.food > 1;
 export const hasWater = (character) => character.hasOwnProperty('water') && character.water !== 0;
 export const characterHasFull = (key, character) => character[`${key}`] === 100;
+export const hasMaxAttackBonus = (character) => character.attackBonus === 5;
 
 // system
 export const isDebugging = (character) => character.hasOwnProperty('debugMode') && !!character.debugMode;

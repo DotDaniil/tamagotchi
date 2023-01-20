@@ -1,5 +1,7 @@
 import fs from 'fs';
 import { generateRandomInteger } from './utils.js';
+import { myTamagotchi } from "./state.js";
+import { characterExists } from "./locators.js";
 
 export const characterRemoveMoney = (amount, character) => character.modifyField('money', character.money - amount);
 export const characterAddMoney = (amount, character) => character.modifyField('money', character.money + amount);
@@ -17,19 +19,20 @@ export const characterDelete = (character) =>  {
 }
 
 const abilities = [{hit: {power: 1, lvl: 0}}]
+const ballanceHpAndLvl = (character) => !!character.lvl ? 80 + character.lvl : 80;
 
-export const createHealth = (character) => character.modifyField('hp',80 + generateRandomInteger(20));
+export const createHealth = (character) => character.modifyField('hp',!!character.gender ? 80 + generateRandomInteger(20) : ballanceHpAndLvl(character) + generateRandomInteger(100 - ballanceHpAndLvl(character)));
 export const createIntellect = (character) => character.modifyField('intellect', 1 + generateRandomInteger(2));
 export const createStrength = (character) => character.modifyField('strength', 1 + generateRandomInteger(2));
 export const createWins = (character) => character.modifyField('wins', 0);
 export const createLvl = (character) => character.modifyField('lvl', 0);
 export const createExp = (character) => character.modifyField('exp', 0);
-export const createFood = (character) => character.modifyField('food', 80 + generateRandomInteger(20));
+export const createFood = (character) => character.modifyField('food', 20 + generateRandomInteger(30));
 export const createAttackBonus = (character) => character.modifyField('attackBonus', 0);
-export const createWater = (character) => character.modifyField('water', 80 + generateRandomInteger(20));
-export const createMoney = (character) => character.modifyField('money', 5 + generateRandomInteger(0));
-export const createItems = (character) => character.modifyField('inventory', [ {type: 'food', count: 5}, {type: 'water', count: 5}, {type: 'hp', count: 5} ]);
-export const createArenaItems = (character) => character.modifyField('arenaItems', ['MegaCrit']);
+export const createWater = (character) => character.modifyField('water', 20 + generateRandomInteger(30));
+export const createMoney = (character) => character.modifyField('money', 1);
+export const createItems = (character) => character.modifyField('inventory', [ {type: 'food', count: 0}, {type: 'water', count: 0}, {type: 'hp', count: 0} ]);
+export const createArenaItems = (character) => character.modifyField('arenaItems', []);
 export const createAbilities = (character) => character.modifyField('abilities', abilities );
 
 export const createIsMainMenuOpened = (character) => character.modifyField('isMainMenuOpened', false);
@@ -46,8 +49,8 @@ export const copyCharacterToState = (temporaryStateCharacter, stateCharacter) =>
     }
 }
 
-export const createRandomCharStateInterval = (key, character) => character.modifyField(key, 50 + generateRandomInteger(50));
-export const createRandomCharStateIntervalFaster = (key, character) => character.modifyField(key, 20 + generateRandomInteger(30));
+export const createRandomCharStateInterval = (key, character) => character.modifyField(key, 10 + generateRandomInteger(40));
+export const createRandomCharStateIntervalFaster = (key, character) => character.modifyField(key, 5 + generateRandomInteger(20));
 export const setMainMenuIsOpened = (character) => character.modifyField('isMainMenuOpened', character.isMainMenuOpened = true);
 export const setMainMenuIsClosed = (character) => character.modifyField('isMainMenuOpened', character.isMainMenuOpened = false);
 export const deleteCharStateInterval = (key, character) => character.delField(key);

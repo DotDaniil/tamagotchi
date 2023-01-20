@@ -4,7 +4,7 @@ import { menuBack } from "../menu-back.js";
 import { numberOf } from "./utils.js";
 import { arenaShop } from "./arena-shop.js";
 import { rl } from "../../main.js";
-import {menuFunctions} from "../show-menu.js";
+import { menuFunctions } from "../show-menu.js";
 
 
 const arenaText = () => {
