@@ -1,6 +1,7 @@
 import { myTamagotchi } from "../../state.js";
-import {addArenaItem, numberOf} from "./utils.js";
-import {menuFunctions} from "../show-menu.js";
+import { addArenaItem, numberOf } from "./utils.js";
+import { menuFunctions } from "../show-menu.js";
+import { hasMaxAttackBonus } from "../../locators.js";
 
 
 
@@ -14,7 +15,7 @@ AttackBonus: ${myTamagotchi.attackBonus}
 
 -------------------------
 1 - MegaCrit (cost 3)
-2 - AttackBonus (+ 1 to attack) (cost 5)
+2 - AttackBonus (+ 1 to attack) (cost 10)
 -------------------------
 Type 'r' to return \n
 `);
@@ -40,11 +41,13 @@ export const arenaShop = () => {
                 break;
             case '2':
                 console.clear()
-                if (myTamagotchi.money - 5 >= 0) {
-                    myTamagotchi.modifyField('money', myTamagotchi.money - 5);
-                    myTamagotchi.modifyField('attackBonus', myTamagotchi.attackBonus + 1);
+                if (myTamagotchi.money - 10 >= 0) {
+                    if (!hasMaxAttackBonus(myTamagotchi)) {
+                        myTamagotchi.modifyField('money', myTamagotchi.money - 10);
+                        myTamagotchi.modifyField('attackBonus', myTamagotchi.attackBonus + 1);
+                    }
                     showArenaShopText();
-                    console.log('+ 1 AttackBonus');
+                    console.log(!hasMaxAttackBonus(myTamagotchi) ? '+ 1 AttackBonus': '5 is MAX AttackBonus');
                 } else {
                     showArenaShopText();
                     console.log(`You don't have enough money!`);
