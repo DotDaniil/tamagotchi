@@ -4,4 +4,4 @@ my tiny node.js petproject game
 
 still in progress...
 
-ver. 0.2.0 
+ver. 0.2.1
